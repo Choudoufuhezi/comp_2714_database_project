@@ -1,6 +1,8 @@
-CREATE SCHEMA IF NOT EXISTS project_schema;
+DROP SCHEMA IF EXISTS lab_tracker_group_10 CASCADE;
 
-SET search_path TO project_schema;
+CREATE SCHEMA lab_tracker_group_10;
+
+SET search_path TO lab_tracker_group_10;
 
 DROP TABLE IF EXISTS LAB_PROGRESS_LOG CASCADE;
 DROP TABLE IF EXISTS LAB_PROGRESS CASCADE;
