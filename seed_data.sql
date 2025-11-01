@@ -1,135 +1,284 @@
-SET search_path TO project_schema;
+SET search_path TO lab_tracker_group_10;
 
---TERM
-INSERT INTO TERM (term_code, name, start_date, end_date)
+-- INSERT: COURSE
+INSERT INTO COURSE VALUES
+  ('COMP2714', 'Relational Database Systems', 3);
+
+-- INSERT: TERM
+INSERT INTO TERM VALUES
+  (202510, 'Winter 2025', '2025-01-06', '2025-04-11'),
+  (202520, 'Spring/Summer 2025', '2025-04-28', '2025-08-08'),
+  (202530, 'Fall 2025', '2025-09-02', '2025-12-12');
+
+-- INSERT: SECTION
+INSERT INTO SECTION VALUES
+  ('L01', 'LAB', 'A', 'BBY-SW01-3460', 'Mon', '09:30', '11:20', '202530', 'COMP2714'),
+  ('L02', 'LAB', 'B', 'BBY-SW01-3465', 'Mon', '13:30', '15:20', '202530', 'COMP2714'),
+  ('L03', 'LAB', 'C', 'BBY-SW03-2605', 'Tue', '18:30', '20:20', '202530', 'COMP2714'),
+  ('L04', 'LAB', 'D', 'BBY-SE12-101', 'Wed', '09:30', '11:20', '202530', 'COMP2714'),
+  ('L05', 'LAB', 'E', 'DTC-310', 'Wed', '13:30', '15:20', '202530', 'COMP2714'),
+  ('L06', 'LAB', 'F', 'DTC-318', 'Thu', '18:30', '20:20', '202530', 'COMP2714');
+
+-- INSERT: LAB
+INSERT INTO LAB (LAB_ID, LAB_TITLE, LAB_ASSIGNMENT_ID)
 VALUES
-(202510, 'Winter 2025', '2025-01-06', '2025-04-11'),
-(202520, 'Spring/Summer 2025', '2025-04-28', '2025-08-08'),
-(202530, 'Fall 2025', '2025-09-02', '2025-12-12');
+  (1, 'Environment Setup & Intro SQL', 'LAB01'),
+  (2, 'Conceptual -> Logical Mapping', 'LAB02'),
+  (3, 'Logical ERD & Constraints', 'LAB03'),
+  (4, 'Normalization to 3NF', 'LAB04'),
+  (5, 'DDL Implementation', 'LAB05'),
+  (6, 'DML: INSERT/UPDATE/DELETE', 'LAB06'),
+  (7, 'SELECT & JOIN Practice', 'LAB07'),
+  (8, 'Views & Indexes', 'LAB08');
 
---COURSE
-INSERT INTO COURSE (course_code, title)
+-- INSERT: SECTION_LAB
+INSERT INTO SECTION_LAB
+  (SEC_CODE, LAB_ID, SEC_LAB_START, SEC_LAB_END, SEC_LAB_DUE, SEC_LAB_LOCATION)
 VALUES
-('COMP2714', 'Relational Database Systems'),
-('COMP2510', 'Procedural Programming'),
-('COMP2522', 'OOP1');
+  ('L01', 1, '2025-09-08 09:30', '2025-09-08 11:20', '2025-09-14 23:59', 'BBY-SW01-3460'),
+  ('L01', 2, '2025-09-15 09:30', '2025-09-15 11:20', '2025-09-21 23:59', 'BBY-SW01-3460'),
+  ('L01', 3, '2025-09-22 09:30', '2025-09-22 11:20', '2025-09-28 23:59', 'BBY-SW01-3460'),
 
---LAB
-INSERT INTO LAB (lab_title)
+  ('L02', 1, '2025-09-08 13:30', '2025-09-08 15:20', '2025-09-14 23:59', 'BBY-SW01-3465'),
+  ('L02', 2, '2025-09-15 13:30', '2025-09-15 15:20', '2025-09-21 23:59', 'BBY-SW01-3465'),
+  ('L02', 3, '2025-09-22 13:30', '2025-09-22 15:20', '2025-09-28 23:59', 'BBY-SW01-3465'),
+
+  ('L03', 1, '2025-09-09 18:30', '2025-09-09 20:20', '2025-09-14 23:59', 'BBY-SW03-2605'),
+  ('L03', 2, '2025-09-16 18:30', '2025-09-16 20:20', '2025-09-21 23:59', 'BBY-SW03-2605'),
+  ('L03', 3, '2025-09-23 18:30', '2025-09-23 20:20', '2025-09-28 23:59', 'BBY-SW03-2605'),
+
+  ('L04', 1, '2025-09-10 09:30', '2025-09-10 11:20', '2025-09-14 23:59', 'BBY-SE12-101'),
+  ('L04', 2, '2025-09-17 09:30', '2025-09-17 11:20', '2025-09-21 23:59', 'BBY-SE12-101'),
+  ('L04', 3, '2025-09-24 09:30', '2025-09-24 11:20', '2025-09-28 23:59', 'BBY-SE12-101'),
+
+  ('L05', 1, '2025-09-10 13:30', '2025-09-10 15:20', '2025-09-15 09:00', 'DTC-310'),
+  ('L05', 2, '2025-09-17 13:30', '2025-09-17 15:20', '2025-09-22 09:00', 'DTC-310'),
+  ('L05', 3, '2025-09-24 13:30', '2025-09-24 15:20', '2025-09-29 09:00', 'DTC-310'),
+
+  ('L06', 1, '2025-09-11 18:30', '2025-09-11 20:20', '2025-09-15 09:00', 'DTC-318'),
+  ('L06', 2, '2025-09-18 18:30', '2025-09-18 20:20', '2025-09-22 09:00', 'DTC-318'),
+  ('L06', 3, '2025-09-25 18:30', '2025-09-25 20:20', '2025-09-29 09:00', 'DTC-318');
+
+
+-- INSERT: USER_
+INSERT INTO USER_ (USER_ID, USER_ROLE, USER_FNAME, USER_LNAME, USER_EMAIL)
 VALUES
-('Java Object-Oriented Programming Basics'),
-('C Pointers and Memory Management'),
-('SQL Joins and Query Optimization'),
-('Java Exception Handling and File I/O'),
-('Database Normalization and Constraints');
+  ('u_instructor', 'INSTRUCTOR', 'Maryam', 'Khezrzadeh', 'mkhezrzadeh@bcit.ca'),
+  ('u_ta1', 'TA', 'Daniel', 'Saavedra', 'dsaavedra@bcit.ca'),
+  ('u_system', 'SYSTEM', 'Lab', 'Tracker', 'noreply@labtracker.local'),
+  ('A001', 'STUDENT', 'Ava', 'Nguyen', 'ava.nguyen@my.bcit.ca'),
+  ('A002', 'STUDENT', 'Noah', 'Kim', 'noah.kim@my.bcit.ca'),
+  ('A003', 'STUDENT', 'Oliver', 'Singh', 'oliver.singh@my.bcit.ca'),
+  ('B001', 'STUDENT', 'Maya', 'Fischer', 'maya.fischer@my.bcit.ca'),
+  ('B002', 'STUDENT', 'Leo', 'Park', 'leo.park@my.bcit.ca'),
+  ('B003', 'STUDENT', 'Zoé', 'Martin', 'zoe.martin@my.bcit.ca'),
+  ('C001', 'STUDENT', 'Sofia', 'Chen', 'sofia.chen@my.bcit.ca'),
+  ('C002', 'STUDENT', 'Arjun', 'Patel', 'arjun.patel@my.bcit.ca'),
+  ('C003', 'STUDENT', 'Liam', 'O''Reilly', 'liam.oreilly@my.bcit.ca'),
+  ('D001', 'STUDENT', 'Layla', 'Haddad', 'layla.haddad@my.bcit.ca'),
+  ('D002', 'STUDENT', 'Ethan', 'Wong', 'ethan.wong@my.bcit.ca'),
+  ('D003', 'STUDENT', 'Nora', 'Iverson', 'nora.iverson@my.bcit.ca'),
+  ('E001', 'STUDENT', 'Diego', 'Alvarez', 'diego.alvarez@my.bcit.ca'),
+  ('E002', 'STUDENT', 'Hana', 'Yamamoto', 'hana.yamamoto@my.bcit.ca'),
+  ('E003', 'STUDENT', 'Farah', 'Rahimi', 'farah.rahimi@my.bcit.ca'),
+  ('F001', 'STUDENT', 'Marco', 'Russo', 'marco.russo@my.bcit.ca'),
+  ('F002', 'STUDENT', 'Amir', 'Kazemi', 'amir.kazemi@my.bcit.ca'),
+  ('F003', 'STUDENT', 'Chloe', 'Dubois', 'chloe.dubois@my.bcit.ca');
 
---SECTION
-INSERT INTO SECTION (
-    sec_code,
-    sec_level,
-    sec_set,
-    sec_location,
-    crs_code
-)
+
+-- INSERT: STUDENT
+INSERT INTO STUDENT (USER_ID)
 VALUES
-('L01', '202530', 'A', 'BBY-SW01-3460', 'COMP2714'),
-('L02', '202530', 'B', 'BBY-SW01-3465', 'COMP2714'),
-('L03', '202530', 'C', 'BBY-SW03-2605', 'COMP2714'),
-('L04', '202530', 'D', 'BBY-SE12-101', 'COMP2714'),
-('L05', '202530', 'E', 'DTC-310', 'COMP2714'),
-('L06', '202530', 'F', 'DTC-318', 'COMP2714');
+  ('A001'),
+  ('A002'),
+  ('A003'),
+  ('B001'),
+  ('B002'),
+  ('B003'),
+  ('C001'),
+  ('C002'),
+  ('C003'),
+  ('D001'),
+  ('D002'),
+  ('D003'),
+  ('E001'),
+  ('E002'),
+  ('E003'),
+  ('F001'),
+  ('F002'),
+  ('F003');
 
---SECTION_LAB
-INSERT INTO SECTION_LAB (sec_code, lab_id, sec_lab_date, sec_lab_location)
-VALUES
-('L01', 1, '2025-09-09', 'BBY-SW01-3460'),
-('L01', 2, '2025-09-16', 'BBY-SW01-3460'),
-('L01', 3, '2025-09-23', 'BBY-SW01-3460'),
-('L01', 4, '2025-09-30', 'BBY-SW01-3460'),
-('L01', 5, '2025-10-07', 'BBY-SW01-3460'),
-('L02', 1, '2025-09-10', 'BBY-SW01-3465'),
-('L02', 2, '2025-09-17', 'BBY-SW01-3465'),
-('L02', 3, '2025-09-24', 'BBY-SW01-3465'),
-('L02', 4, '2025-10-01', 'BBY-SW01-3465'),
-('L02', 5, '2025-10-08', 'BBY-SW01-3465'),
---USER
-INSERT INTO USER (user_role, user_fname, user_lname, user_email)
-VALUES
-('INSTRUCTOR', 'Maryam', 'Khezrzadeh', 'mkhezrzadeh@bcit.ca'),
-('ADMIN', 'Lab', 'Tracker System', 'noreply@labtracker.local'),
-('STUDENT', 'Ava', 'Nguyen', 'ava.nguyen@my.bcit.ca'),
-('STUDENT', 'Noah', 'Kim', 'noah.kim@my.bcit.ca'),
-('STUDENT', 'Oliver', 'Singh', 'oliver.singh@my.bcit.ca'),
-('STUDENT', 'Maya', 'Fischer', 'maya.fischer@my.bcit.ca'),
-('STUDENT', 'Leo', 'Park', 'leo.park@my.bcit.ca'),
-('STUDENT', 'Zoé', 'Martin', 'zoe.martin@my.bcit.ca'),
-('STUDENT', 'Sofia', 'Chen', 'sofia.chen@my.bcit.ca'),
-('STUDENT', 'Arjun', 'Patel', 'arjun.patel@my.bcit.ca'),
-('STUDENT', 'Liam', 'O’Reilly', 'liam.oreilly@my.bcit.ca'),
-('STUDENT', 'Layla', 'Haddad', 'layla.haddad@my.bcit.ca'),
-('STUDENT', 'Ethan', 'Wong', 'ethan.wong@my.bcit.ca'),
-('STUDENT', 'Nora', 'Iverson', 'nora.iverson@my.bcit.ca'),
-('STUDENT', 'Diego', 'Alvarez', 'diego.alvarez@my.bcit.ca'),
-('STUDENT', 'Hana', 'Yamamoto', 'hana.yamamoto@my.bcit.ca'),
-('STUDENT', 'Farah', 'Rahimi', 'farah.rahimi@my.bcit.ca'),
-('STUDENT', 'Marco', 'Russo', 'marco.russo@my.bcit.ca'),
-('STUDENT', 'Amir', 'Kazemi', 'amir.kazemi@my.bcit.ca'),
-('STUDENT', 'Chloe', 'Dubois', 'chloe.dubois@my.bcit.ca');
+-- INSERT: LAB_PROGRESS
+INSERT INTO LAB_PROGRESS (
+  SEC_CODE, LAB_ID, STUDENT_ID,
+  PROG_ATTENDANCE, PROG_STATUS,
+  PROG_SUBMISSION_LINK, PROG_SUBMISSION_TIMESTAMP,
+  PROG_REEVALUATION_LINK, PROG_REEVALUATION_TIMESTAMP,
+  PROG_INSTRUCTOR_ASSESSMENT, PROG_SELF_ASSESSMENT, PROG_LATE
+) VALUES
+  -- L01
+  ('L01', 1, 'A001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/A001-L01-L01.pdf', '2025-09-08 10:45',
+   'https://submit.bcit.ca/comp2714/polished/A001-L01-L01.pdf', '2025-09-09 12:45',
+   8.5, 8.2, FALSE),
+  ('L01', 2, 'A001', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/A001-L01-L02.pdf', '2025-09-15 10:35',
+   NULL, NULL,
+   7.0, 6.7, FALSE),
+  ('L01', 1, 'A002', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/A002-L01-L01.pdf', '2025-09-08 10:45',
+   'https://submit.bcit.ca/comp2714/polished/A002-L01-L01.pdf', '2025-09-09 12:45',
+   8.5, 8.2, FALSE),
+  ('L01', 2, 'A002', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/A002-L01-L02.pdf', '2025-09-15 10:40',
+   NULL, NULL,
+   NULL, NULL, FALSE),
+  ('L01', 1, 'A003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/A003-L01-L01.pdf', '2025-09-08 10:45',
+   'https://submit.bcit.ca/comp2714/polished/A003-L01-L01.pdf', '2025-09-09 12:45',
+   8.5, 8.2, FALSE),
+  ('L01', 2, 'A003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/A003-L01-L02.pdf', '2025-09-15 10:35',
+   'https://submit.bcit.ca/comp2714/polished/A003-L01-L02.pdf', '2025-09-17 11:35',
+   7.0, 6.7, FALSE),
 
---INSTRUCTOR
-INSERT INTO INSTRUCTOR (user_id, instructor_hire_date)
-VALUES
-(1, '2020-09-01');
+  -- L02
+  ('L02', 1, 'B001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/B001-L02-L01.pdf', '2025-09-08 14:45',
+   'https://submit.bcit.ca/comp2714/polished/B001-L02-L01.pdf', '2025-09-09 16:45',
+   8.5, 8.2, FALSE),
+  ('L02', 2, 'B001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/B001-L02-L02.pdf', '2025-09-15 14:35',
+   'https://submit.bcit.ca/comp2714/polished/B001-L02-L02.pdf', '2025-09-17 15:35',
+   7.0, 6.7, FALSE),
+  ('L02', 1, 'B002', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/B002-L02-L01.pdf', '2025-09-08 14:45',
+   'https://submit.bcit.ca/comp2714/polished/B002-L02-L01.pdf', '2025-09-09 16:45',
+   8.5, 8.2, FALSE),
+  ('L02', 2, 'B002', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/B002-L02-L02.pdf', '2025-09-15 14:40',
+   NULL, NULL,
+   NULL, NULL, FALSE),
+  ('L02', 1, 'B003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/B003-L02-L01.pdf', '2025-09-08 14:45',
+   'https://submit.bcit.ca/comp2714/polished/B003-L02-L01.pdf', '2025-09-09 16:45',
+   8.5, 8.2, FALSE),
+  ('L02', 2, 'B003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/B003-L02-L02.pdf', '2025-09-15 14:35',
+   'https://submit.bcit.ca/comp2714/polished/B003-L02-L02.pdf', '2025-09-17 15:35',
+   7.0, 6.7, FALSE),
 
---STUDENT
-INSERT INTO STUDENT (user_id, student_number)
-VALUES
-(3, 'A001'),
-(4, 'A002'),
-(5, 'A003'),
-(6, 'B001'),
-(7, 'B002'),
-(8, 'B003'),
-(9, 'C001'),
-(10, 'C002'),
-(11, 'C003'),
-(12, 'D001'),
-(13, 'D002'),
-(14, 'D003'),
-(15, 'E001'),
-(16, 'E002'),
-(17, 'E003'),
-(18, 'F001'),
-(19, 'F002'),
-(20, 'F003');
+  -- L03
+  ('L03', 1, 'C001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/C001-L03-L01.pdf', '2025-09-09 19:45',
+   'https://submit.bcit.ca/comp2714/polished/C001-L03-L01.pdf', '2025-09-10 21:45',
+   8.5, 8.2, FALSE),
+  ('L03', 2, 'C001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/C001-L03-L02.pdf', '2025-09-16 19:35',
+   'https://submit.bcit.ca/comp2714/polished/C001-L03-L02.pdf', '2025-09-18 20:35',
+   7.0, 6.7, FALSE),
+  ('L03', 1, 'C002', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/C002-L03-L01.pdf', '2025-09-09 19:45',
+   'https://submit.bcit.ca/comp2714/polished/C002-L03-L01.pdf', '2025-09-10 21:45',
+   8.5, 8.2, FALSE),
+  ('L03', 2, 'C002', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/C002-L03-L02.pdf', '2025-09-16 19:40',
+   NULL, NULL,
+   NULL, NULL, FALSE),
+  ('L03', 1, 'C003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/C003-L03-L01.pdf', '2025-09-09 19:45',
+   'https://submit.bcit.ca/comp2714/polished/C003-L03-L01.pdf', '2025-09-10 21:45',
+   8.5, 8.2, FALSE),
+  ('L03', 2, 'C003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/C003-L03-L02.pdf', '2025-09-16 19:35',
+   'https://submit.bcit.ca/comp2714/polished/C003-L03-L02.pdf', '2025-09-18 20:35',
+   7.0, 6.7, FALSE),
 
---LAB_PROGRESS
-INSERT INTO LAB_PROGRESS
-  (sec_code, lab_id, student_id, prog_attendance, prog_status, prog_score,
-   prog_submission_link, prog_submission_timestamp,
-   prog_reevaluation_link, prog_reevaluation_timestamp)
-VALUES
--- A001
-('L01', 1, 3, TRUE, 'SUBMITTED', 8.5, 'https://submit.bcit.ca/comp2714/inlab/A001-L01-L01.pdf',
- TIMESTAMP '2025-09-09 10:45', 'https://submit.bcit.ca/comp2714/polished/A001-L01-L01.pdf', TIMESTAMP '2025-09-10 12:45'),
-('L01', 2, 3, TRUE, 'SUBMITTED', 7.0, 'https://submit.bcit.ca/comp2714/inlab/A001-L01-L02.pdf',
- TIMESTAMP '2025-09-16 10:35', 'https://submit.bcit.ca/comp2714/polished/A001-L01-L02.pdf', TIMESTAMP '2025-09-17 11:35'),
+  -- L04
+  ('L04', 1, 'D001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/D001-L04-L01.pdf', '2025-09-10 10:45',
+   'https://submit.bcit.ca/comp2714/polished/D001-L04-L01.pdf', '2025-09-11 12:45',
+   8.5, 8.2, FALSE),
+  ('L04', 2, 'D001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/D001-L04-L02.pdf', '2025-09-17 10:35',
+   'https://submit.bcit.ca/comp2714/polished/D001-L04-L02.pdf', '2025-09-19 11:35',
+   7.0, 6.7, FALSE),
+  ('L04', 1, 'D002', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/D002-L04-L01.pdf', '2025-09-10 10:45',
+   'https://submit.bcit.ca/comp2714/polished/D002-L04-L01.pdf', '2025-09-11 12:45',
+   8.5, 8.2, FALSE),
+  ('L04', 2, 'D002', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/D002-L04-L02.pdf', '2025-09-17 10:40',
+   NULL, NULL,
+   NULL, NULL, FALSE),
+  ('L04', 1, 'D003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/D003-L04-L01.pdf', '2025-09-10 10:45',
+   'https://submit.bcit.ca/comp2714/polished/D003-L04-L01.pdf', '2025-09-11 12:45',
+   8.5, 8.2, FALSE),
+  ('L04', 2, 'D003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/D003-L04-L02.pdf', '2025-09-17 10:35',
+   'https://submit.bcit.ca/comp2714/polished/D003-L04-L02.pdf', '2025-09-19 11:35',
+   7.0, 6.7, FALSE),
 
--- A002
-('L01', 1, 4, TRUE, 'SUBMITTED', 8.5, 'https://submit.bcit.ca/comp2714/inlab/A002-L01-L01.pdf',
- TIMESTAMP '2025-09-09 12:45', 'https://submit.bcit.ca/comp2714/polished/A002-L01-L01.pdf', TIMESTAMP '2025-09-10 12:45'),
-('L01', 2, 4, TRUE, 'IN_PROGRESS', NULL, 'https://submit.bcit.ca/comp2714/inlab/A002-L01-L02.pdf',
- TIMESTAMP '2025-09-16 10:40', '', NULL),
+  -- L05
+  ('L05', 1, 'E001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/E001-L05-L01.pdf', '2025-09-10 14:45',
+   'https://submit.bcit.ca/comp2714/polished/E001-L05-L01.pdf', '2025-09-11 16:45',
+   8.5, 8.2, FALSE),
+  ('L05', 2, 'E001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/E001-L05-L02.pdf', '2025-09-17 14:35',
+   'https://submit.bcit.ca/comp2714/polished/E001-L05-L02.pdf', '2025-09-19 15:35',
+   7.0, 6.7, FALSE),
+  ('L05', 1, 'E002', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/E002-L05-L01.pdf', '2025-09-10 14:45',
+   'https://submit.bcit.ca/comp2714/polished/E002-L05-L01.pdf', '2025-09-11 16:45',
+   8.5, 8.2, FALSE),
+  ('L05', 2, 'E002', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/E002-L05-L02.pdf', '2025-09-17 14:40',
+   NULL, NULL,
+   NULL, NULL, FALSE),
+  ('L05', 1, 'E003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/E003-L05-L01.pdf', '2025-09-10 14:45',
+   'https://submit.bcit.ca/comp2714/polished/E003-L05-L01.pdf', '2025-09-11 16:45',
+   8.5, 8.2, FALSE),
+  ('L05', 2, 'E003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/E003-L05-L02.pdf', '2025-09-17 14:35',
+   'https://submit.bcit.ca/comp2714/polished/E003-L05-L02.pdf', '2025-09-19 15:35',
+   7.0, 6.7, FALSE),
 
--- A003
-('L01', 1, 5, TRUE, 'SUBMITTED', 8.5, 'https://submit.bcit.ca/comp2714/inlab/A003-L01-L01.pdf',
- TIMESTAMP '2025-09-09 10:45', 'https://submit.bcit.ca/comp2714/polished/A003-L01-L01.pdf', TIMESTAMP '2025-09-10 12:45'),
-('L01', 2, 5, TRUE, 'SUBMITTED', 7.0, 'https://submit.bcit.ca/comp2714/inlab/A003-L01-L02.pdf',
- TIMESTAMP '2025-09-16 10:35', 'https://submit.bcit.ca/comp2714/polished/A003-L01-L02.pdf', TIMESTAMP '2025-09-17 11:35');
+  -- L06
+  ('L06', 1, 'F001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/F001-L06-L01.pdf', '2025-09-11 19:45',
+   'https://submit.bcit.ca/comp2714/polished/F001-L06-L01.pdf', '2025-09-12 21:45',
+   8.5, 8.2, FALSE),
+  ('L06', 2, 'F001', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/F001-L06-L02.pdf', '2025-09-18 19:35',
+   'https://submit.bcit.ca/comp2714/polished/F001-L06-L02.pdf', '2025-09-20 20:35',
+   7.0, 6.7, FALSE),
+  ('L06', 1, 'F002', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/F002-L06-L01.pdf', '2025-09-11 19:45',
+   'https://submit.bcit.ca/comp2714/polished/F002-L06-L01.pdf', '2025-09-12 21:45',
+   8.5, 8.2, FALSE),
+  ('L06', 2, 'F002', TRUE, 'IN_PROGRESS',
+   'https://submit.bcit.ca/comp2714/inlab/F002-L06-L02.pdf', '2025-09-18 19:40',
+   NULL, NULL,
+   NULL, NULL, FALSE),
+  ('L06', 1, 'F003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/F003-L06-L01.pdf', '2025-09-11 19:45',
+   'https://submit.bcit.ca/comp2714/polished/F003-L06-L01.pdf', '2025-09-12 21:45',
+   8.5, 8.2, FALSE),
+  ('L06', 2, 'F003', TRUE, 'COMPLETED',
+   'https://submit.bcit.ca/comp2714/inlab/F003-L06-L02.pdf', '2025-09-18 19:35',
+   'https://submit.bcit.ca/comp2714/polished/F003-L06-L02.pdf', '2025-09-20 20:35',
+   7.0, 6.7, FALSE);
 
---LAB_PROGRESS_LOG
-INSERT INTO LAB_PROGRESS_LOG
-  (prog_id, field_name, old_value, new_value, notes, change_timestamp)
-VALUES
-(2, 'PROG_SCORE', 6.5, 7.0, 'Rubric tweak on problem 3', TIMESTAMP '2025-09-17 12:00'),
-(3, 'PROG_SCORE', 8.0, 8.5, 'Bonus question awarded', TIMESTAMP '2025-09-10 17:00');
+
+-- INSERT: LAB_PROGRESS_LOG
+INSERT INTO LAB_PROGRESS_LOG (
+  PROG_ID, CHANGED_BY, FIELD_NAME, OLD_VALUE, NEW_VALUE, NOTES, CHANGE_TIMESTAMP
+) VALUES
+  (1, 'u_instructor', 'PROG_INSTRUCTOR_ASSESSMENT', 8.0, 8.5, 'Regraded after resubmission', '2025-09-09 12:10'),
+  (6, 'u_ta1', 'PROG_STATUS', NULL, NULL, 'Student submitted during lab; TA marked as submitted', '2025-09-16 20:45'),
+  (12, 'u_system', 'PROG_LATE', 0, 1, 'Auto-flagged after set-specific due time', '2025-09-23 23:59');
+
+
