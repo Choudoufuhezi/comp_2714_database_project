@@ -6,7 +6,6 @@ SELECT table_name
 FROM information_schema.tables
 WHERE table_schema = 'lab_tracker_group_10';
 
--- Counting tests:
 -- Count the number of rows in the tables
 
 SELECT 'COURSE' AS table, COUNT(*) FROM COURSE UNION ALL
@@ -20,24 +19,35 @@ SELECT 'STUDENT', COUNT(*) FROM STUDENT UNION ALL
 SELECT 'LAB_PROGRESS', COUNT(*) FROM LAB_PROGRESS UNION ALL
 SELECT 'LAB_PROGRESS_LOG', COUNT(*) FROM LAB_PROGRESS_LOG;
 
--- JOIN tests:
 -- These should all return 0 rows if the FKs are intact
 
 -- LAB_PROGRESS should reference valid SECTION_LAB rows
-SELECT *
-FROM LAB_PROGRESS lp 
-LEFT JOIN SECTION_LAB sl ON lp.sec_code = sl.sec_code AND lp.lab_id = sl.lab_id
-WHERE sl.sec_code IS NULL;
+SELECT lp.*
+FROM LAB_PROGRESS lp
+LEFT JOIN SECTION_LAB sl ON lp.event_id = sl.event_id
+WHERE sl.event_id IS NULL;
 
 -- LAB_PROGRESS should reference valid STUDENT rows
-SELECT *
+SELECT lp.*
 FROM LAB_PROGRESS lp
 LEFT JOIN STUDENT s ON lp.student_id = s.user_id
 WHERE s.user_id IS NULL;
 
 -- SECTION should reference valid COURSE and TERM
-SELECT *
+SELECT s.*
 FROM SECTION s
 LEFT JOIN COURSE c ON s.crs_code = c.crs_code
 LEFT JOIN TERM t ON s.term_code = t.term_code
 WHERE c.crs_code IS NULL OR t.term_code IS NULL;
+
+
+-- Test USER_ROLE domain
+SELECT DISTINCT user_role FROM USER_;
+
+-- Test COURSE_CODE format
+SELECT crs_code FROM COURSE WHERE crs_code !~ '^[A-Z]{4}[0-9]{3,4}$';
+
+-- Test TERM_NAME format
+SELECT term_name
+FROM TERM
+WHERE term_name !~ '^(Winter|Spring|Summer|Fall|Spring/Summer) [0-9]{4}$';
