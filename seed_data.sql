@@ -30,18 +30,25 @@ INSERT INTO TERM (
   ('202520', 'Spring/Summer 2025', '2025-04-28', '2025-08-08'),
   ('202530', 'Fall 2025', '2025-09-02', '2025-12-12');
 
+INSERT INTO SET_ (SET_CODE, SET_CAMPUS) VALUES
+('A', 'Burnaby'),
+('B', 'Burnaby'),
+('C', 'Burnaby'),
+('D', 'Burnaby'),
+('E', 'Downtown'),
+('F', 'Downtown');
+
 -- INSERT: SECTION
 INSERT INTO SECTION (
   SEC_CODE, SEC_LEVEL, SEC_SET,
-  SEC_DAY_OF_WEEK, SEC_START_TIME, SEC_END_TIME,
-  TERM_CODE, CRS_CODE
+  SEC_DAY_OF_WEEK, TERM_CODE, CRS_CODE
 ) VALUES
-  ('L01', 'LAB', 'A', 'Mon', '09:30', '11:20', '202530', 'COMP2714'),
-  ('L02', 'LAB', 'B', 'Mon', '13:30', '15:20', '202530', 'COMP2714'),
-  ('L03', 'LAB', 'C', 'Tue', '18:30', '20:20', '202530', 'COMP2714'),
-  ('L04', 'LAB', 'D', 'Wed', '09:30', '11:20', '202530', 'COMP2714'),
-  ('L05', 'LAB', 'E', 'Wed', '13:30', '15:20', '202530', 'COMP2714'),
-  ('L06', 'LAB', 'F', 'Thu', '18:30', '20:20', '202530', 'COMP2714');
+  ('L01', 'LAB', 'A', 'Mon', '202530', 'COMP2714'),
+  ('L02', 'LAB', 'B', 'Mon', '202530', 'COMP2714'),
+  ('L03', 'LAB', 'C', 'Tue', '202530', 'COMP2714'),
+  ('L04', 'LAB', 'D', 'Wed', '202530', 'COMP2714'),
+  ('L05', 'LAB', 'E', 'Wed', '202530', 'COMP2714'),
+  ('L06', 'LAB', 'F', 'Thu', '202530', 'COMP2714');
 
 
 -- INSERT: LAB
