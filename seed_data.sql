@@ -32,16 +32,16 @@ INSERT INTO TERM (
 
 -- INSERT: SECTION
 INSERT INTO SECTION (
-  SEC_CODE, SEC_LEVEL, SEC_SET, SEC_LOCATION,
+  SEC_CODE, SEC_LEVEL, SEC_SET,
   SEC_DAY_OF_WEEK, SEC_START_TIME, SEC_END_TIME,
   TERM_CODE, CRS_CODE
 ) VALUES
-  ('L01', 'LAB', 'A', 'BBY-SW01-3460', 'Mon', '09:30', '11:20', '202530', 'COMP2714'),
-  ('L02', 'LAB', 'B', 'BBY-SW01-3465', 'Mon', '13:30', '15:20', '202530', 'COMP2714'),
-  ('L03', 'LAB', 'C', 'BBY-SW03-2605', 'Tue', '18:30', '20:20', '202530', 'COMP2714'),
-  ('L04', 'LAB', 'D', 'BBY-SE12-101', 'Wed', '09:30', '11:20', '202530', 'COMP2714'),
-  ('L05', 'LAB', 'E', 'DTC-310', 'Wed', '13:30', '15:20', '202530', 'COMP2714'),
-  ('L06', 'LAB', 'F', 'DTC-318', 'Thu', '18:30', '20:20', '202530', 'COMP2714');
+  ('L01', 'LAB', 'A', 'Mon', '09:30', '11:20', '202530', 'COMP2714'),
+  ('L02', 'LAB', 'B', 'Mon', '13:30', '15:20', '202530', 'COMP2714'),
+  ('L03', 'LAB', 'C', 'Tue', '18:30', '20:20', '202530', 'COMP2714'),
+  ('L04', 'LAB', 'D', 'Wed', '09:30', '11:20', '202530', 'COMP2714'),
+  ('L05', 'LAB', 'E', 'Wed', '13:30', '15:20', '202530', 'COMP2714'),
+  ('L06', 'LAB', 'F', 'Thu', '18:30', '20:20', '202530', 'COMP2714');
 
 
 -- INSERT: LAB
@@ -57,32 +57,39 @@ VALUES
   (8, 'Views & Indexes', 'LAB08');
 
 -- INSERT: SECTION_LAB
-INSERT INTO SECTION_LAB
-  (SEC_CODE, LAB_ID, SEC_LAB_START, SEC_LAB_END, SEC_LAB_DUE, SEC_LAB_LOCATION)
-VALUES
-  ('L01', 1, '2025-09-08 09:30', '2025-09-08 11:20', '2025-09-14 23:59', 'BBY-SW01-3460'),
-  ('L01', 2, '2025-09-15 09:30', '2025-09-15 11:20', '2025-09-21 23:59', 'BBY-SW01-3460'),
-  ('L01', 3, '2025-09-22 09:30', '2025-09-22 11:20', '2025-09-28 23:59', 'BBY-SW01-3460'),
+INSERT INTO SECTION_LAB (
+  EVENT_CODE, SECTION_ID, LAB_ID, SEC_LAB_START, SEC_LAB_END, SEC_LAB_DUE, SEC_LAB_LOCATION
+) VALUES
+  -- L01
+  ('L01-L01', 1, 1, '2025-09-08 09:30', '2025-09-08 11:20', '2025-09-14 23:59', 'BBY-SW01-3460'),
+  ('L01-L02', 1, 2, '2025-09-15 09:30', '2025-09-15 11:20', '2025-09-21 23:59', 'BBY-SW01-3460'),
+  ('L01-L03', 1, 3, '2025-09-22 09:30', '2025-09-22 11:20', '2025-09-28 23:59', 'BBY-SW01-3460'),
 
-  ('L02', 1, '2025-09-08 13:30', '2025-09-08 15:20', '2025-09-14 23:59', 'BBY-SW01-3465'),
-  ('L02', 2, '2025-09-15 13:30', '2025-09-15 15:20', '2025-09-21 23:59', 'BBY-SW01-3465'),
-  ('L02', 3, '2025-09-22 13:30', '2025-09-22 15:20', '2025-09-28 23:59', 'BBY-SW01-3465'),
+  -- L02
+  ('L02-L01', 2, 1, '2025-09-08 13:30', '2025-09-08 15:20', '2025-09-14 23:59', 'BBY-SW01-3465'),
+  ('L02-L02', 2, 2, '2025-09-15 13:30', '2025-09-15 15:20', '2025-09-21 23:59', 'BBY-SW01-3465'),
+  ('L02-L03', 2, 3, '2025-09-22 13:30', '2025-09-22 15:20', '2025-09-28 23:59', 'BBY-SW01-3465'),
 
-  ('L03', 1, '2025-09-09 18:30', '2025-09-09 20:20', '2025-09-14 23:59', 'BBY-SW03-2605'),
-  ('L03', 2, '2025-09-16 18:30', '2025-09-16 20:20', '2025-09-21 23:59', 'BBY-SW03-2605'),
-  ('L03', 3, '2025-09-23 18:30', '2025-09-23 20:20', '2025-09-28 23:59', 'BBY-SW03-2605'),
+  -- L03
+  ('L03-L01', 3, 1, '2025-09-09 18:30', '2025-09-09 20:20', '2025-09-14 23:59', 'BBY-SW03-2605'),
+  ('L03-L02', 3, 2, '2025-09-16 18:30', '2025-09-16 20:20', '2025-09-21 23:59', 'BBY-SW03-2605'),
+  ('L03-L03', 3, 3, '2025-09-23 18:30', '2025-09-23 20:20', '2025-09-28 23:59', 'BBY-SW03-2605'),
 
-  ('L04', 1, '2025-09-10 09:30', '2025-09-10 11:20', '2025-09-14 23:59', 'BBY-SE12-101'),
-  ('L04', 2, '2025-09-17 09:30', '2025-09-17 11:20', '2025-09-21 23:59', 'BBY-SE12-101'),
-  ('L04', 3, '2025-09-24 09:30', '2025-09-24 11:20', '2025-09-28 23:59', 'BBY-SE12-101'),
+  -- L04
+  ('L04-L01', 4, 1, '2025-09-10 09:30', '2025-09-10 11:20', '2025-09-14 23:59', 'BBY-SE12-101'),
+  ('L04-L02', 4, 2, '2025-09-17 09:30', '2025-09-17 11:20', '2025-09-21 23:59', 'BBY-SE12-101'),
+  ('L04-L03', 4, 3, '2025-09-24 09:30', '2025-09-24 11:20', '2025-09-28 23:59', 'BBY-SE12-101'),
 
-  ('L05', 1, '2025-09-10 13:30', '2025-09-10 15:20', '2025-09-15 09:00', 'DTC-310'),
-  ('L05', 2, '2025-09-17 13:30', '2025-09-17 15:20', '2025-09-22 09:00', 'DTC-310'),
-  ('L05', 3, '2025-09-24 13:30', '2025-09-24 15:20', '2025-09-29 09:00', 'DTC-310'),
+  -- L05
+  ('L05-L01', 5, 1, '2025-09-10 13:30', '2025-09-10 15:20', '2025-09-15 09:00', 'DTC-310'),
+  ('L05-L02', 5, 2, '2025-09-17 13:30', '2025-09-17 15:20', '2025-09-22 09:00', 'DTC-310'),
+  ('L05-L03', 5, 3, '2025-09-24 13:30', '2025-09-24 15:20', '2025-09-29 09:00', 'DTC-310'),
 
-  ('L06', 1, '2025-09-11 18:30', '2025-09-11 20:20', '2025-09-15 09:00', 'DTC-318'),
-  ('L06', 2, '2025-09-18 18:30', '2025-09-18 20:20', '2025-09-22 09:00', 'DTC-318'),
-  ('L06', 3, '2025-09-25 18:30', '2025-09-25 20:20', '2025-09-29 09:00', 'DTC-318');
+  -- L06
+  ('L06-L01', 6, 1, '2025-09-11 18:30', '2025-09-11 20:20', '2025-09-15 09:00', 'DTC-318'),
+  ('L06-L02', 6, 2, '2025-09-18 18:30', '2025-09-18 20:20', '2025-09-22 09:00', 'DTC-318'),
+  ('L06-L03', 6, 3, '2025-09-25 18:30', '2025-09-25 20:20', '2025-09-29 09:00', 'DTC-318');
+
 
 
 -- INSERT: USER_
@@ -138,73 +145,169 @@ VALUES
   ('F002'),
   ('F003');
 
--- INSERT: LAB_PROGRESS
+
 INSERT INTO LAB_PROGRESS (
-  EVENT_ID, STUDENT_ID,
-  PROG_ATTENDANCE, PROG_STATUS, PROG_PREPARED,
-  PROG_SUBMISSION_LINK, PROG_SUBMISSION_TIMESTAMP,
-  PROG_REEVALUATION_LINK, PROG_REEVALUATION_TIMESTAMP,
-  PROG_INSTRUCTOR_ASSESSMENT, PROG_SELF_ASSESSMENT, PROG_LATE
+    PROG_ID, EVENT_ID, STUDENT_ID, PROG_STATUS, PROG_PREPARED, PROG_ATTENDANCE,
+    PROG_SUBMISSION_TIMESTAMP, PROG_SUBMISSION_LINK,
+    PROG_REEVALUATION_TIMESTAMP, PROG_REEVALUATION_LINK,
+    PROG_INSTRUCTOR_ASSESSMENT, PROG_SELF_ASSESSMENT, PROG_LATE
 ) VALUES
-  -- L01
-  ('L01-L01', 'A001', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/A001-L01-L01.pdf', '2025-09-08 10:45',
-   'https://submit.bcit.ca/comp2714/polished/A001-L01-L01.pdf', '2025-09-09 12:45',
-   8.5, 8.2, FALSE),
-  ('L01-L02', 'A001', TRUE, 'IN_PROGRESS', FALSE,
-   'https://submit.bcit.ca/comp2714/inlab/A001-L01-L02.pdf', '2025-09-15 10:35',
-   NULL, NULL,
-   7.0, 6.7, FALSE),
-  ('L01-L01', 'A002', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/A002-L01-L01.pdf', '2025-09-08 10:45',
-   'https://submit.bcit.ca/comp2714/polished/A002-L01-L01.pdf', '2025-09-09 12:45',
-   8.5, 8.2, FALSE),
-  ('L01-L02', 'A002', TRUE, 'IN_PROGRESS', FALSE,
-   'https://submit.bcit.ca/comp2714/inlab/A002-L01-L02.pdf', '2025-09-15 10:40',
-   NULL, NULL,
-   NULL, NULL, FALSE),
-  ('L01-L01', 'A003', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/A003-L01-L01.pdf', '2025-09-08 10:45',
-   'https://submit.bcit.ca/comp2714/polished/A003-L01-L01.pdf', '2025-09-09 12:45',
-   8.5, 8.2, FALSE),
-  ('L01-L02', 'A003', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/A003-L01-L02.pdf', '2025-09-15 10:35',
-   'https://submit.bcit.ca/comp2714/polished/A003-L01-L02.pdf', '2025-09-17 11:35',
-   7.0, 6.7, FALSE),
+-- L01
+('A001-L01-L01', 1, 'A001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-08 10:45', 'https://submit.bcit.ca/comp2714/inlab/A001-L01-L01.pdf',
+ '2025-09-09 12:45', 'https://submit.bcit.ca/comp2714/polished/A001-L01-L01.pdf',
+ 8.5, 8.2, FALSE),
+('A001-L01-L02', 2, 'A001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-15 10:35', 'https://submit.bcit.ca/comp2714/inlab/A001-L01-L02.pdf',
+ '2025-09-17 11:35', 'https://submit.bcit.ca/comp2714/polished/A001-L01-L02.pdf',
+ 7.0, 6.7, FALSE),
+('A002-L01-L01', 1, 'A002', 'COMPLETED', TRUE, TRUE,
+ '2025-09-08 10:45', 'https://submit.bcit.ca/comp2714/inlab/A002-L01-L01.pdf',
+ '2025-09-09 12:45', 'https://submit.bcit.ca/comp2714/polished/A002-L01-L01.pdf',
+ 8.5, 8.2, FALSE),
+('A002-L01-L02', 2, 'A002', 'IN_PROGRESS', TRUE, TRUE,
+ '2025-09-15 10:40', 'https://submit.bcit.ca/comp2714/inlab/A002-L01-L02.pdf',
+ NULL, NULL, NULL, NULL, FALSE),
+('A003-L01-L01', 1, 'A003', 'COMPLETED', TRUE, TRUE,
+ '2025-09-08 10:45', 'https://submit.bcit.ca/comp2714/inlab/A003-L01-L01.pdf',
+ '2025-09-09 12:45', 'https://submit.bcit.ca/comp2714/polished/A003-L01-L01.pdf',
+ 8.5, 8.2, FALSE),
+('A003-L01-L02', 2, 'A003', 'COMPLETED', FALSE, TRUE,
+ '2025-09-15 10:35', 'https://submit.bcit.ca/comp2714/inlab/A003-L01-L02.pdf',
+ '2025-09-17 11:35', 'https://submit.bcit.ca/comp2714/polished/A003-L01-L02.pdf',
+ 7.0, 6.7, FALSE),
 
-  -- L02
-  ('L02-L01', 'B001', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/B001-L02-L01.pdf', '2025-09-08 14:45',
-   'https://submit.bcit.ca/comp2714/polished/B001-L02-L01.pdf', '2025-09-09 16:45',
-   8.5, 8.2, FALSE),
-  ('L02-L02', 'B001', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/B001-L02-L02.pdf', '2025-09-15 14:35',
-   'https://submit.bcit.ca/comp2714/polished/B001-L02-L02.pdf', '2025-09-17 15:35',
-   7.0, 6.7, FALSE),
-  ('L02-L01', 'B002', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/B002-L02-L01.pdf', '2025-09-08 14:45',
-   'https://submit.bcit.ca/comp2714/polished/B002-L02-L01.pdf', '2025-09-09 16:45',
-   8.5, 8.2, FALSE),
-  ('L02-L02', 'B002', TRUE, 'IN_PROGRESS', FALSE,
-   'https://submit.bcit.ca/comp2714/inlab/B002-L02-L02.pdf', '2025-09-15 14:40',
-   NULL, NULL,
-   NULL, NULL, FALSE),
-  ('L02-L01', 'B003', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/B003-L02-L01.pdf', '2025-09-08 14:45',
-   'https://submit.bcit.ca/comp2714/polished/B003-L02-L01.pdf', '2025-09-09 16:45',
-   8.5, 8.2, FALSE),
-  ('L02-L02', 'B003', TRUE, 'COMPLETED', TRUE,
-   'https://submit.bcit.ca/comp2714/inlab/B003-L02-L02.pdf', '2025-09-15 14:35',
-   'https://submit.bcit.ca/comp2714/polished/B003-L02-L02.pdf', '2025-09-17 15:35',
-   7.0, 6.7, FALSE);
+-- L02
+('B001-L02-L01', 4, 'B001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-08 14:45', 'https://submit.bcit.ca/comp2714/inlab/B001-L02-L01.pdf',
+ '2025-09-09 16:45', 'https://submit.bcit.ca/comp2714/polished/B001-L02-L01.pdf',
+ 8.5, 8.2, FALSE),
+('B001-L02-L02', 5, 'B001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-15 14:35', 'https://submit.bcit.ca/comp2714/inlab/B001-L02-L02.pdf',
+ '2025-09-17 15:35', 'https://submit.bcit.ca/comp2714/polished/B001-L02-L02.pdf',
+ 7.0, 6.7, FALSE),
+('B002-L02-L01', 4, 'B002', 'COMPLETED', TRUE, TRUE,
+ '2025-09-08 14:45', 'https://submit.bcit.ca/comp2714/inlab/B002-L02-L01.pdf',
+ '2025-09-09 16:45', 'https://submit.bcit.ca/comp2714/polished/B002-L02-L01.pdf',
+ 8.5, 8.2, FALSE),
+('B002-L02-L02', 5, 'B002', 'IN_PROGRESS', TRUE, TRUE,
+ '2025-09-15 14:40', 'https://submit.bcit.ca/comp2714/inlab/B002-L02-L02.pdf',
+ NULL, NULL, NULL, NULL, FALSE),
+('B003-L02-L01', 4, 'B003', 'COMPLETED', TRUE, TRUE,
+ '2025-09-08 14:45', 'https://submit.bcit.ca/comp2714/inlab/B003-L02-L01.pdf',
+ '2025-09-09 16:45', 'https://submit.bcit.ca/comp2714/polished/B003-L02-L01.pdf',
+ 8.5, 8.2, FALSE),
+('B003-L02-L02', 5, 'B003', 'COMPLETED', FALSE, TRUE,
+ '2025-09-15 14:35', 'https://submit.bcit.ca/comp2714/inlab/B003-L02-L02.pdf',
+ '2025-09-17 15:35', 'https://submit.bcit.ca/comp2714/polished/B003-L02-L02.pdf',
+ 7.0, 6.7, FALSE),
 
+-- L03
+('C001-L03-L01', 7, 'C001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-09 19:45', 'https://submit.bcit.ca/comp2714/inlab/C001-L03-L01.pdf',
+ '2025-09-10 21:45', 'https://submit.bcit.ca/comp2714/polished/C001-L03-L01.pdf',
+ 8.5, 8.2, FALSE),
+('C001-L03-L02', 8, 'C001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-16 19:35', 'https://submit.bcit.ca/comp2714/inlab/C001-L03-L02.pdf',
+ '2025-09-18 20:35', 'https://submit.bcit.ca/comp2714/polished/C001-L03-L02.pdf',
+ 7.0, 6.7, FALSE),
+('C002-L03-L01', 7, 'C002', 'COMPLETED', TRUE, TRUE,
+ '2025-09-09 19:45', 'https://submit.bcit.ca/comp2714/inlab/C002-L03-L01.pdf',
+ '2025-09-10 21:45', 'https://submit.bcit.ca/comp2714/polished/C002-L03-L01.pdf',
+ 8.5, 8.2, FALSE),
+('C002-L03-L02', 8, 'C002', 'IN_PROGRESS', TRUE, TRUE,
+ '2025-09-16 19:40', 'https://submit.bcit.ca/comp2714/inlab/C002-L03-L02.pdf',
+ NULL, NULL, NULL, NULL, FALSE),
+('C003-L03-L01', 7, 'C003', 'COMPLETED', TRUE, TRUE,
+ '2025-09-09 19:45', 'https://submit.bcit.ca/comp2714/inlab/C003-L03-L01.pdf',
+ '2025-09-10 21:45', 'https://submit.bcit.ca/comp2714/polished/C003-L03-L01.pdf',
+ 8.5, 8.2, FALSE),
+('C003-L03-L02', 8, 'C003', 'COMPLETED', FALSE, TRUE,
+ '2025-09-16 19:35', 'https://submit.bcit.ca/comp2714/inlab/C003-L03-L02.pdf',
+ '2025-09-18 20:35', 'https://submit.bcit.ca/comp2714/polished/C003-L03-L02.pdf',
+ 7.0, 6.7, FALSE),
+
+-- L04
+('D001-L04-L01', 10, 'D001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-10 10:45', 'https://submit.bcit.ca/comp2714/inlab/D001-L04-L01.pdf',
+ '2025-09-11 12:45', 'https://submit.bcit.ca/comp2714/polished/D001-L04-L01.pdf',
+ 8.5, 8.2, FALSE),
+('D001-L04-L02', 11, 'D001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-17 10:35', 'https://submit.bcit.ca/comp2714/inlab/D001-L04-L02.pdf',
+ '2025-09-19 11:35', 'https://submit.bcit.ca/comp2714/polished/D001-L04-L02.pdf',
+ 7.0, 6.7, FALSE),
+('D002-L04-L01', 10, 'D002', 'COMPLETED', TRUE, TRUE,
+ '2025-09-10 10:45', 'https://submit.bcit.ca/comp2714/inlab/D002-L04-L01.pdf',
+ '2025-09-11 12:45', 'https://submit.bcit.ca/comp2714/polished/D002-L04-L01.pdf',
+ 8.5, 8.2, FALSE),
+('D002-L04-L02', 11, 'D002', 'IN_PROGRESS', TRUE, TRUE,
+ '2025-09-17 10:40', 'https://submit.bcit.ca/comp2714/inlab/D002-L04-L02.pdf',
+ NULL, NULL, NULL, NULL, FALSE),
+('D003-L04-L01', 10, 'D003', 'COMPLETED', TRUE, TRUE,
+ '2025-09-10 10:45', 'https://submit.bcit.ca/comp2714/inlab/D003-L04-L01.pdf',
+ '2025-09-11 12:45', 'https://submit.bcit.ca/comp2714/polished/D003-L04-L01.pdf',
+ 8.5, 8.2, FALSE),
+('D003-L04-L02', 11, 'D003', 'COMPLETED', FALSE, TRUE,
+ '2025-09-17 10:35', 'https://submit.bcit.ca/comp2714/inlab/D003-L04-L02.pdf',
+ '2025-09-19 11:35', 'https://submit.bcit.ca/comp2714/polished/D003-L04-L02.pdf',
+ 7.0, 6.7, FALSE),
+
+-- L05
+('E001-L05-L01', 13, 'E001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-10 14:45', 'https://submit.bcit.ca/comp2714/inlab/E001-L05-L01.pdf',
+ '2025-09-11 16:45', 'https://submit.bcit.ca/comp2714/polished/E001-L05-L01.pdf',
+ 8.5, 8.2, FALSE),
+('E001-L05-L02', 14, 'E001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-17 14:35', 'https://submit.bcit.ca/comp2714/inlab/E001-L05-L02.pdf',
+ '2025-09-19 15:35', 'https://submit.bcit.ca/comp2714/polished/E001-L05-L02.pdf',
+ 7.0, 6.7, FALSE),
+('E002-L05-L01', 13, 'E002', 'COMPLETED', TRUE, TRUE,
+ '2025-09-10 14:45', 'https://submit.bcit.ca/comp2714/inlab/E002-L05-L01.pdf',
+ '2025-09-11 16:45', 'https://submit.bcit.ca/comp2714/polished/E002-L05-L01.pdf',
+ 8.5, 8.2, FALSE),
+('E002-L05-L02', 14, 'E002', 'IN_PROGRESS', TRUE, TRUE,
+ '2025-09-17 14:40', 'https://submit.bcit.ca/comp2714/inlab/E002-L05-L02.pdf',
+ NULL, NULL, NULL, NULL, FALSE),
+('E003-L05-L01', 13, 'E003', 'COMPLETED', TRUE, TRUE,
+ '2025-09-10 14:45', 'https://submit.bcit.ca/comp2714/inlab/E003-L05-L01.pdf',
+ '2025-09-11 16:45', 'https://submit.bcit.ca/comp2714/polished/E003-L05-L01.pdf',
+ 8.5, 8.2, FALSE),
+('E003-L05-L02', 14, 'E003', 'COMPLETED', FALSE, TRUE,
+ '2025-09-17 14:35', 'https://submit.bcit.ca/comp2714/inlab/E003-L05-L02.pdf',
+ '2025-09-19 15:35', 'https://submit.bcit.ca/comp2714/polished/E003-L05-L02.pdf',
+ 7.0, 6.7, FALSE),
+
+-- L06
+('F001-L06-L01', 16, 'F001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-11 19:45', 'https://submit.bcit.ca/comp2714/inlab/F001-L06-L01.pdf',
+ '2025-09-12 21:45', 'https://submit.bcit.ca/comp2714/polished/F001-L06-L01.pdf',
+ 8.5, 8.2, FALSE),
+('F001-L06-L02', 17, 'F001', 'COMPLETED', TRUE, TRUE,
+ '2025-09-18 19:35', 'https://submit.bcit.ca/comp2714/inlab/F001-L06-L02.pdf',
+ '2025-09-20 20:35', 'https://submit.bcit.ca/comp2714/polished/F001-L06-L02.pdf',
+ 7.0, 6.7, FALSE),
+('F002-L06-L01', 16, 'F002', 'COMPLETED', TRUE, TRUE,
+ '2025-09-11 19:45', 'https://submit.bcit.ca/comp2714/inlab/F002-L06-L01.pdf',
+ '2025-09-12 21:45', 'https://submit.bcit.ca/comp2714/polished/F002-L06-L01.pdf',
+ 8.5, 8.2, FALSE),
+('F002-L06-L02', 17, 'F002', 'IN_PROGRESS', TRUE, TRUE,
+ '2025-09-18 19:40', 'https://submit.bcit.ca/comp2714/inlab/F002-L06-L02.pdf',
+ NULL, NULL, NULL, NULL, FALSE),
+('F003-L06-L01', 16, 'F003', 'COMPLETED', TRUE, TRUE,
+ '2025-09-11 19:45', 'https://submit.bcit.ca/comp2714/inlab/F003-L06-L01.pdf',
+ '2025-09-12 21:45', 'https://submit.bcit.ca/comp2714/polished/F003-L06-L01.pdf',
+ 8.5, 8.2, FALSE),
+('F003-L06-L02', 17, 'F003', 'COMPLETED', FALSE, TRUE,
+ '2025-09-18 19:35', 'https://submit.bcit.ca/comp2714/inlab/F003-L06-L02.pdf',
+ '2025-09-20 20:35', 'https://submit.bcit.ca/comp2714/polished/F003-L06-L02.pdf',
+ 7.0, 6.7, FALSE);
 
 -- INSERT: LAB_PROGRESS_LOG
 INSERT INTO LAB_PROGRESS_LOG (
-  PROG_ID, CHANGED_BY, FIELD_NAME, OLD_VALUE, NEW_VALUE, NOTES, CHANGE_TIMESTAMP
+  PROG_CODE, CHANGED_BY, FIELD_NAME, OLD_VALUE, NEW_VALUE, NOTES, CHANGE_TIMESTAMP
 ) VALUES
-  ('A001-L01-L01', 'u_instructor', 'PROG_INSTRUCTOR_ASSESSMENT', '8.0', '8.5', 'Regraded after resubmission', '2025-09-09 12:10'),
-  ('A003-L01-L02', 'u_ta1', 'PROG_STATUS', 'IN_PROGRESS', 'COMPLETED', 'Student submitted during lab; TA marked as submitted', '2025-09-16 20:45'),
-  ('B003-L02-L01', 'u_system', 'PROG_LATE', 'FALSE', 'TRUE', 'Auto-flagged after set-specific due time', '2025-09-23 23:59');
+  (1, 'u_instructor', 'PROG_INSTRUCTOR_ASSESSMENT', '8.0', '8.5', 'Regraded after resubmission', '2025-09-09 12:10'),
+  (6, 'u_ta1', 'PROG_STATUS', 'IN_PROGRESS', 'COMPLETED', 'Student submitted during lab; TA marked as submitted', '2025-09-16 20:45'),
+  (15, 'u_system', 'PROG_LATE', 'FALSE', 'TRUE', 'Auto-flagged after set-specific due time', '2025-09-23 23:59');
 
 
