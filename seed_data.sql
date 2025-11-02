@@ -1,23 +1,48 @@
 SET search_path TO lab_tracker_group_10;
 
+TRUNCATE TABLE 
+  LAB_PROGRESS_LOG,
+  LAB_PROGRESS,
+  SECTION_LAB,
+  LAB,
+  SECTION,
+  TERM,
+  COURSE,
+  STUDENT,
+  INSTRUCTOR,
+  USER_
+RESTART IDENTITY CASCADE;
+
 -- INSERT: COURSE
-INSERT INTO COURSE VALUES
+INSERT INTO COURSE (
+ CRS_CODE, CRS_TITLE, CRS_CREDITS 
+)VALUES
   ('COMP2714', 'Relational Database Systems', 3);
 
 -- INSERT: TERM
-INSERT INTO TERM VALUES
-  (202510, 'Winter 2025', '2025-01-06', '2025-04-11'),
-  (202520, 'Spring/Summer 2025', '2025-04-28', '2025-08-08'),
-  (202530, 'Fall 2025', '2025-09-02', '2025-12-12');
+INSERT INTO TERM (
+  TERM_CODE,
+  TERM_NAME,
+  TERM_START_DATE,
+  TERM_END_DATE
+) VALUES
+  ('202510', 'Winter 2025', '2025-01-06', '2025-04-11'),
+  ('202520', 'Spring/Summer 2025', '2025-04-28', '2025-08-08'),
+  ('202530', 'Fall 2025', '2025-09-02', '2025-12-12');
 
 -- INSERT: SECTION
-INSERT INTO SECTION VALUES
+INSERT INTO SECTION (
+  SEC_CODE, SEC_LEVEL, SEC_SET, SEC_LOCATION,
+  SEC_DAY_OF_WEEK, SEC_START_TIME, SEC_END_TIME,
+  TERM_CODE, CRS_CODE
+) VALUES
   ('L01', 'LAB', 'A', 'BBY-SW01-3460', 'Mon', '09:30', '11:20', '202530', 'COMP2714'),
   ('L02', 'LAB', 'B', 'BBY-SW01-3465', 'Mon', '13:30', '15:20', '202530', 'COMP2714'),
   ('L03', 'LAB', 'C', 'BBY-SW03-2605', 'Tue', '18:30', '20:20', '202530', 'COMP2714'),
   ('L04', 'LAB', 'D', 'BBY-SE12-101', 'Wed', '09:30', '11:20', '202530', 'COMP2714'),
   ('L05', 'LAB', 'E', 'DTC-310', 'Wed', '13:30', '15:20', '202530', 'COMP2714'),
   ('L06', 'LAB', 'F', 'DTC-318', 'Thu', '18:30', '20:20', '202530', 'COMP2714');
+
 
 -- INSERT: LAB
 INSERT INTO LAB (LAB_ID, LAB_TITLE, LAB_ASSIGNMENT_ID)
@@ -88,7 +113,7 @@ VALUES
 --INSTRUCTOR
 INSERT INTO INSTRUCTOR (user_id, instructor_hire_date)
 VALUES
-("u_instructor", '2020-09-01');
+('u_instructor', '2020-09-01');
 
 
 -- INSERT: STUDENT
@@ -178,8 +203,8 @@ INSERT INTO LAB_PROGRESS (
 INSERT INTO LAB_PROGRESS_LOG (
   PROG_ID, CHANGED_BY, FIELD_NAME, OLD_VALUE, NEW_VALUE, NOTES, CHANGE_TIMESTAMP
 ) VALUES
-  ('A001-L01-L01', 'u_instructor', 'PROG_INSTRUCTOR_ASSESSMENT', 8.0, 8.5, 'Regraded after resubmission', '2025-09-09 12:10'),
-  ('A003-L01-L02', 'u_ta1', 'PROG_STATUS', NULL, NULL, 'Student submitted during lab; TA marked as submitted', '2025-09-16 20:45'),
-  ('B003-L02-L01', 'u_system', 'PROG_LATE', 0, 1, 'Auto-flagged after set-specific due time', '2025-09-23 23:59');
+  ('A001-L01-L01', 'u_instructor', 'PROG_INSTRUCTOR_ASSESSMENT', '8.0', '8.5', 'Regraded after resubmission', '2025-09-09 12:10'),
+  ('A003-L01-L02', 'u_ta1', 'PROG_STATUS', 'IN_PROGRESS', 'COMPLETED', 'Student submitted during lab; TA marked as submitted', '2025-09-16 20:45'),
+  ('B003-L02-L01', 'u_system', 'PROG_LATE', 'FALSE', 'TRUE', 'Auto-flagged after set-specific due time', '2025-09-23 23:59');
 
 
