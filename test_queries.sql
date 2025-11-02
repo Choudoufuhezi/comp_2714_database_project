@@ -19,6 +19,7 @@ SELECT 'STUDENT', COUNT(*) FROM STUDENT UNION ALL
 SELECT 'LAB_PROGRESS', COUNT(*) FROM LAB_PROGRESS UNION ALL
 SELECT 'LAB_PROGRESS_LOG', COUNT(*) FROM LAB_PROGRESS_LOG;
 
+
 -- These should all return 0 rows if the FKs are intact
 
 -- LAB_PROGRESS should reference valid SECTION_LAB rows
@@ -41,6 +42,8 @@ LEFT JOIN TERM t ON s.term_code = t.term_code
 WHERE c.crs_code IS NULL OR t.term_code IS NULL;
 
 
+-- Domain definitions and formats
+
 -- Test USER_ROLE domain
 SELECT DISTINCT user_role FROM USER_;
 
@@ -51,3 +54,38 @@ SELECT crs_code FROM COURSE WHERE crs_code !~ '^[A-Z]{4}[0-9]{3,4}$';
 SELECT term_name
 FROM TERM
 WHERE term_name !~ '^(Winter|Spring|Summer|Fall|Spring/Summer) [0-9]{4}$';
+
+
+-- Test PROGRESS_STATUS values
+SELECT DISTINCT prog_status FROM LAB_PROGRESS;
+
+-- List all students with their enrolled labs
+SELECT lp.prog_id, u.user_fname, u.user_lname, sl.sec_code, sl.lab_id, lp.prog_status
+FROM LAB_PROGRESS lp
+JOIN SECTION_LAB sl ON sl.event_id = lp.event_id
+JOIN STUDENT st ON st.user_id = lp.student_id
+JOIN USER_ u ON u.user_id = st.user_id
+ORDER BY sl.sec_code, sl.lab_id, u.user_lname;
+
+-- Show labs per section to validate SECTION_LAB mapping
+SELECT s.sec_code, COUNT(sl.lab_id) AS num_labs
+FROM SECTION s
+JOIN SECTION_LAB sl USING (sec_code)
+GROUP BY s.sec_code
+ORDER BY s.sec_code;
+
+
+-- Number of students who completed Lab across all sections
+SELECT sl.lab_id, COUNT(*) AS completed_count
+FROM LAB_PROGRESS lp
+JOIN SECTION_LAB sl ON lp.event_id = sl.event_id
+WHERE lp.prog_status = 'COMPLETED'
+GROUP BY sl.lab_id
+ORDER BY sl.lab_id;
+
+-- Average instructor score per section
+SELECT sl.sec_code, AVG(lp.prog_instructor_assessment) AS avg_assessment
+FROM LAB_PROGRESS lp
+JOIN SECTION_LAB sl ON lp.event_id = sl.event_id
+GROUP BY sl.sec_code
+ORDER BY sl.sec_code;
