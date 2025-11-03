@@ -1,22 +1,24 @@
-COURSE
+# Schema Design Notes — Milestone 3
+
+**COURSE**
 
 PK: CRS_CODE is a natural primary key (e.g., COMP2714).
 Constraints: The course code follows the domain format ^[A-Z]{4}[0-9]{3,4}$. Each course must have a non-empty title and a numeric credit value.
 References: Referenced by SECTION.CRS_CODE with no cascade action.
 
-TERM
+**TERM**
 
 PK: TERM_CODE is a natural six-digit code (e.g., 202530).
 Constraints: TERM_NAME is unique and formatted like “Fall 2025.” Start and end dates must be valid, and the end date must be after the start date.
 References: Referenced by SECTION.TERM_CODE with no cascade action.
 
-SET
+**SET**
 
 PK: SET_CODE is a short code (e.g., A–F) that identifies a student group or campus.
 Constraints: SET_CAMPUS must not be null.
 References: Referenced by SECTION.SEC_SET with no cascade action.
 
-SECTION
+**SECTION**
 
 PK: SECTION_ID is a surrogate serial number.
 Constraints: Each section has a unique combination of SEC_CODE, CRS_CODE, and TERM_CODE. All fields such as section level, set, and term must be provided.
@@ -30,13 +32,13 @@ CRS_CODE references COURSE(CRS_CODE).
 All of these references use default (no cascade) behavior.
 Referenced by SECTION_LAB.SECTION_ID with ON DELETE CASCADE.
 
-LAB
+**LAB**
 
 PK: LAB_ID is a surrogate serial number.
 Constraints: Each lab must have a title, and may include an optional assignment ID.
 References: Referenced by SECTION_LAB.LAB_ID with ON DELETE CASCADE.
 
-SECTION_LAB
+**SECTION_LAB**
 
 PK: EVENT_ID is a surrogate serial number.
 Constraints: Each record must include valid start, end, and due timestamps. Each (SECTION_ID, LAB_ID) pair must be unique to avoid duplicate scheduling.
@@ -47,7 +49,7 @@ SECTION_ID references SECTION(SECTION_ID) with ON DELETE CASCADE.
 LAB_ID references LAB(LAB_ID) with ON DELETE CASCADE.
 Referenced by LAB_PROGRESS.EVENT_ID with ON DELETE CASCADE.
 
-USER_
+**USER_**
 
 PK: USER_ID is a natural identifier (e.g., A001 or u_instructor).
 Constraints:
@@ -60,19 +62,19 @@ First and last names are required.
 References:
 Referenced by INSTRUCTOR.USER_ID and STUDENT.USER_ID with ON DELETE CASCADE, and by LAB_PROGRESS_LOG.CHANGED_BY (no cascade).
 
-INSTRUCTOR
+**INSTRUCTOR**
 
 PK: USER_ID is both the primary key and a foreign key referencing USER_(USER_ID).
 Constraints: The INSTRUCTOR_HIRE_DATE field is optional.
 References: Deleting a user cascades to remove their instructor record.
 
-STUDENT
+**STUDENT**
 
 PK: USER_ID is both the primary key and a foreign key referencing USER_(USER_ID).
 Constraints: STUDENT_NUMBER is unique if provided, and STU_MAJOR is optional.
 References: Deleting a user cascades to remove their student record. Referenced by LAB_PROGRESS.STUDENT_ID with ON DELETE CASCADE.
 
-LAB_PROGRESS
+**LAB_PROGRESS**
 
 PK: PROG_CODE is a surrogate serial number.
 Constraints: Each record must include a valid EVENT_ID and STUDENT_ID.
@@ -89,7 +91,7 @@ EVENT_ID references SECTION_LAB(EVENT_ID) with ON DELETE CASCADE.
 STUDENT_ID references STUDENT(USER_ID) with ON DELETE CASCADE.
 Referenced by LAB_PROGRESS_LOG.PROG_CODE with ON DELETE CASCADE.
 
-LAB_PROGRESS_LOG
+**LAB_PROGRESS_LOG**
 
 PK: PROGLOG_ID is a surrogate serial number.
 Constraints: Each record must include a valid PROG_CODE and FIELD_NAME. CHANGE_TIMESTAMP defaults to the current timestamp.
