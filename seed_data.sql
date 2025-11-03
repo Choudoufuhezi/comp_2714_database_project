@@ -10,14 +10,17 @@ TRUNCATE TABLE
   COURSE,
   STUDENT,
   INSTRUCTOR,
-  USER_
+  USER_,
+  SET_
 RESTART IDENTITY CASCADE;
 
 -- INSERT: COURSE
-INSERT INTO COURSE (
- CRS_CODE, CRS_TITLE, CRS_CREDITS 
-)VALUES
-  ('COMP2714', 'Relational Database Systems', 3);
+INSERT INTO COURSE (CRS_CODE, CRS_TITLE, CRS_CREDITS) VALUES
+  ('COMP2714', 'Relational Database Systems', 3),
+  ('COMP2510', 'Procedural Programming in C', 4),
+  ('COMP2522', 'Object-Oriented Programming in Java', 4),
+  ('COMP2800', 'Agile Software Development Project', 3),
+  ('COMP2711', 'Database Fundamentals', 3);
 
 -- INSERT: TERM
 INSERT INTO TERM (
@@ -28,7 +31,9 @@ INSERT INTO TERM (
 ) VALUES
   ('202510', 'Winter 2025', '2025-01-06', '2025-04-11'),
   ('202520', 'Spring/Summer 2025', '2025-04-28', '2025-08-08'),
-  ('202530', 'Fall 2025', '2025-09-02', '2025-12-12');
+  ('202530', 'Fall 2025', '2025-09-02', '2025-12-12'),
+  ('202440', 'Fall 2024', '2024-09-03', '2024-12-13'),
+  ('202610', 'Winter 2026', '2026-01-05', '2026-04-10');
 
 INSERT INTO SET_ (SET_CODE, SET_CAMPUS) VALUES
 ('A', 'Burnaby'),
@@ -103,6 +108,10 @@ INSERT INTO SECTION_LAB (
 INSERT INTO USER_ (USER_ID, USER_ROLE, USER_FNAME, USER_LNAME, USER_EMAIL)
 VALUES
   ('u_instructor', 'INSTRUCTOR', 'Maryam', 'Khezrzadeh', 'mkhezrzadeh@bcit.ca'),
+  ('u_instructor2', 'INSTRUCTOR', 'Chris', 'Thompson', 'cthompson@bcit.ca'),
+  ('u_instructor3', 'INSTRUCTOR', 'Frank', 'Chan', 'fchan@bcit.ca'),
+  ('u_instructor4', 'INSTRUCTOR', 'David', 'Nguyen', 'dnguyen@bcit.ca'),
+  ('u_instructor5', 'INSTRUCTOR', 'Sarah', 'Miller', 'smiller@bcit.ca'),
   ('u_ta1', 'TA', 'Daniel', 'Saavedra', 'dsaavedra@bcit.ca'),
   ('u_system', 'SYSTEM', 'Lab', 'Tracker', 'noreply@labtracker.local'),
   ('A001', 'STUDENT', 'Ava', 'Nguyen', 'ava.nguyen@my.bcit.ca'),
@@ -127,7 +136,11 @@ VALUES
 --INSTRUCTOR
 INSERT INTO INSTRUCTOR (user_id, instructor_hire_date)
 VALUES
-('u_instructor', '2020-09-01');
+('u_instructor', '2020-09-01'), 
+('u_instructor2', '2019-08-15'),
+('u_instructor3', '2021-01-10'),
+('u_instructor4', '2022-04-25'),
+('u_instructor5', '2023-09-05');
 
 
 -- INSERT: STUDENT
@@ -315,6 +328,10 @@ INSERT INTO LAB_PROGRESS_LOG (
 ) VALUES
   (1, 'u_instructor', 'PROG_INSTRUCTOR_ASSESSMENT', '8.0', '8.5', 'Regraded after resubmission', '2025-09-09 12:10'),
   (6, 'u_ta1', 'PROG_STATUS', 'IN_PROGRESS', 'COMPLETED', 'Student submitted during lab; TA marked as submitted', '2025-09-16 20:45'),
-  (15, 'u_system', 'PROG_LATE', 'FALSE', 'TRUE', 'Auto-flagged after set-specific due time', '2025-09-23 23:59');
+  (15, 'u_system', 'PROG_LATE', 'FALSE', 'TRUE', 'Auto-flagged after set-specific due time', '2025-09-23 23:59'),
+  (18, 'u_instructor', 'PROG_LATE', 'TRUE', 'FALSE', 'Instructor approved late submission due to illness documentation', '2025-09-25 10:15'),
+  (27, 'u_system', 'PROG_SELF_ASSESSMENT', '6.7', '7.0', 'System recalculated normalized self-assessment after data refresh', '2025-09-26 08:30');
+
+  
 
 
