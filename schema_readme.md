@@ -1,71 +1,114 @@
----COURSE---
-PK: CRS_CODE (natural key like COMP2714).
-Important constraints: CRS_CODE uses COURSE_CODE domain (^[A-Z]{4}[0-9]{3,4}$); CRS_TITLE NOT NULL; CRS_CREDITS NUMERIC(3,1). Seed: one row COMP2714.
-Reference actions: Referenced by SECTION.CRS_CODE (NO ACTION).
+COURSE
 
----TERM---
-PK: TERM_CODE (6-digit natural code, e.g., 202530).
-Important constraints: TERM_NAME UNIQUE with TERM_NAME_TYPE (e.g., Fall 2025); TERM_START_DATE/TERM_END_DATE NOT NULL with TERM_END_DATE > TERM_START_DATE. Seed: Winter/Spring-Summer/Fall 2025.
-Reference actions: Referenced by SECTION.TERM_CODE (NO ACTION).
+PK: CRS_CODE is a natural primary key (e.g., COMP2714).
+Constraints: The course code follows the domain format ^[A-Z]{4}[0-9]{3,4}$. Each course must have a non-empty title and a numeric credit value.
+References: Referenced by SECTION.CRS_CODE with no cascade action.
 
----SET_---
-PK: SET_CODE (cohort/campus code like A…F).
-Important constraints: SET_CAMPUS NOT NULL. Seed provides Burnaby/Downtown sets A–F.
-Reference actions: Referenced by SECTION.SEC_SET (NO ACTION).
+TERM
 
----SECTION---
-PK: SECTION_ID (surrogate SERIAL).
-Important constraints: SEC_CODE/SEC_LEVEL/SEC_SET/TERM_CODE/CRS_CODE NOT NULL; UNIQUE(SEC_CODE, CRS_CODE, TERM_CODE) prevents duplicate offerings in a term. Seed: six LAB sections (IDs 1–6).
-Reference actions: SEC_SET → SET_(SET_CODE) (NO ACTION); TERM_CODE → TERM(TERM_CODE) (NO ACTION); CRS_CODE → COURSE(CRS_CODE) (NO ACTION); referenced by SECTION_LAB.SECTION_ID (CASCADE).
+PK: TERM_CODE is a natural six-digit code (e.g., 202530).
+Constraints: TERM_NAME is unique and formatted like “Fall 2025.” Start and end dates must be valid, and the end date must be after the start date.
+References: Referenced by SECTION.TERM_CODE with no cascade action.
 
----LAB---
-PK: LAB_ID (surrogate SERIAL).
-Important constraints: LAB_TITLE NOT NULL; optional LAB_ASSIGNMENT_ID. Seed: LAB01–LAB08 (IDs 1–8).
-Reference actions: Referenced by SECTION_LAB.LAB_ID (CASCADE).
+SET
 
----SECTION_LAB---
-PK: EVENT_ID (surrogate SERIAL).
-Important constraints: SECTION_ID/LAB_ID/SEC_LAB_START/SEC_LAB_END/SEC_LAB_DUE NOT NULL; UNIQUE(SECTION_ID, LAB_ID) ensures at most one scheduled instance of a given lab per section; optional EVENT_CODE and SEC_LAB_LOCATION. Seed: events 1–17 across sections L01–L06.
-Reference actions: SECTION_ID → SECTION(SECTION_ID) ON DELETE CASCADE; LAB_ID → LAB(LAB_ID) ON DELETE CASCADE; referenced by LAB_PROGRESS.EVENT_ID (CASCADE).
+PK: SET_CODE is a short code (e.g., A–F) that identifies a student group or campus.
+Constraints: SET_CAMPUS must not be null.
+References: Referenced by SECTION.SEC_SET with no cascade action.
 
----USER_---
-PK: USER_ID (natural identifier like A001, u_instructor).
-Important constraints: USER_ROLE uses USER_ROLE_TYPE (ADMIN/INSTRUCTOR/STUDENT/TA/SYSTEM); USER_FNAME/USER_LNAME NOT NULL; USER_EMAIL UNIQUE NOT NULL. Seed: 1 instructor, 1 TA, 1 system user, 18 students.
-Reference actions: Referenced by INSTRUCTOR.USER_ID, STUDENT.USER_ID (CASCADE), and LAB_PROGRESS_LOG.CHANGED_BY (NO ACTION).
+SECTION
 
----INSTRUCTOR---
-PK: USER_ID (also FK to USER_).
-Important constraints: Optional INSTRUCTOR_HIRE_DATE. Seed: u_instructor.
-Reference actions: USER_ID → USER_(USER_ID) ON DELETE CASCADE.
+PK: SECTION_ID is a surrogate serial number.
+Constraints: Each section has a unique combination of SEC_CODE, CRS_CODE, and TERM_CODE. All fields such as section level, set, and term must be provided.
+References:
 
----STUDENT---
-PK: USER_ID (also FK to USER_).
-Important constraints: Optional STUDENT_NUMBER (UNIQUE) and STU_MAJOR. Seed: cohorts A–F with three students each.
-Reference actions: USER_ID → USER_(USER_ID) ON DELETE CASCADE; referenced by LAB_PROGRESS.STUDENT_ID (CASCADE).
+SEC_SET references SET_(SET_CODE).
 
----LAB_PROGRESS---
-PK: PROG_CODE (surrogate SERIAL).
-Important constraints: EVENT_ID/ STUDENT_ID NOT NULL; PROG_STATUS constrained by PROGRESS_STATUS (NOT_STARTED/IN_PROGRESS/COMPLETED); booleans default FALSE; timestamps/links nullable; numeric assessments optional; optional business key PROG_ID (e.g., A001-L01-L01). Seed: per-event submissions for each set.
-Reference actions: EVENT_ID → SECTION_LAB(EVENT_ID) ON DELETE CASCADE; STUDENT_ID → STUDENT(USER_ID) ON DELETE CASCADE; referenced by LAB_PROGRESS_LOG.PROG_CODE (CASCADE).
+TERM_CODE references TERM(TERM_CODE).
 
----LAB_PROGRESS_LOG---
-PK: PROGLOG_ID (surrogate SERIAL).
-Important constraints: PROG_CODE NOT NULL; FIELD_NAME NOT NULL; CHANGE_TIMESTAMP defaults CURRENT_TIMESTAMP; OLD_VALUE/NEW_VALUE/NOTES optional (free-text snapshot). Seed: examples include regrade, status update, late flag.
-Reference actions: PROG_CODE → LAB_PROGRESS(PROG_CODE) ON DELETE CASCADE; CHANGED_BY → USER_(USER_ID) (NO ACTION).
+CRS_CODE references COURSE(CRS_CODE).
+All of these references use default (no cascade) behavior.
+Referenced by SECTION_LAB.SECTION_ID with ON DELETE CASCADE.
 
----DOMAINS---
-COURSE_CODE: ^[A-Z]{4}[0-9]{3,4}$ (e.g., COMP2714).
+LAB
 
-USER_ROLE_TYPE: ADMIN/INSTRUCTOR/STUDENT/TA/SYSTEM (case-insensitive via UPPER(VALUE)).
+PK: LAB_ID is a surrogate serial number.
+Constraints: Each lab must have a title, and may include an optional assignment ID.
+References: Referenced by SECTION_LAB.LAB_ID with ON DELETE CASCADE.
 
-USERNAME: non-empty string.
+SECTION_LAB
 
-LOCATION: free-form label (rooms/campuses used by seed).
+PK: EVENT_ID is a surrogate serial number.
+Constraints: Each record must include valid start, end, and due timestamps. Each (SECTION_ID, LAB_ID) pair must be unique to avoid duplicate scheduling.
+References:
 
-PROGRESS_STATUS: NOT_STARTED/IN_PROGRESS/COMPLETED (matches seed values).
+SECTION_ID references SECTION(SECTION_ID) with ON DELETE CASCADE.
 
-TERM_NAME_TYPE: ^(Winter|Spring|Summer|Fall|Spring/Summer) \d{4}$.
+LAB_ID references LAB(LAB_ID) with ON DELETE CASCADE.
+Referenced by LAB_PROGRESS.EVENT_ID with ON DELETE CASCADE.
 
-TERM_CODE_FORMAT: ^\d{6}$.
+USER_
 
----Adujstments---
+PK: USER_ID is a natural identifier (e.g., A001 or u_instructor).
+Constraints:
+
+USER_ROLE uses the domain USER_ROLE_TYPE (ADMIN, INSTRUCTOR, STUDENT, TA, SYSTEM).
+
+USER_EMAIL must be unique and non-null.
+
+First and last names are required.
+References:
+Referenced by INSTRUCTOR.USER_ID and STUDENT.USER_ID with ON DELETE CASCADE, and by LAB_PROGRESS_LOG.CHANGED_BY (no cascade).
+
+INSTRUCTOR
+
+PK: USER_ID is both the primary key and a foreign key referencing USER_(USER_ID).
+Constraints: The INSTRUCTOR_HIRE_DATE field is optional.
+References: Deleting a user cascades to remove their instructor record.
+
+STUDENT
+
+PK: USER_ID is both the primary key and a foreign key referencing USER_(USER_ID).
+Constraints: STUDENT_NUMBER is unique if provided, and STU_MAJOR is optional.
+References: Deleting a user cascades to remove their student record. Referenced by LAB_PROGRESS.STUDENT_ID with ON DELETE CASCADE.
+
+LAB_PROGRESS
+
+PK: PROG_CODE is a surrogate serial number.
+Constraints: Each record must include a valid EVENT_ID and STUDENT_ID.
+
+PROG_STATUS must be one of NOT_STARTED, IN_PROGRESS, or COMPLETED.
+
+Boolean fields default to FALSE.
+
+Submission timestamps and links are optional.
+References:
+
+EVENT_ID references SECTION_LAB(EVENT_ID) with ON DELETE CASCADE.
+
+STUDENT_ID references STUDENT(USER_ID) with ON DELETE CASCADE.
+Referenced by LAB_PROGRESS_LOG.PROG_CODE with ON DELETE CASCADE.
+
+LAB_PROGRESS_LOG
+
+PK: PROGLOG_ID is a surrogate serial number.
+Constraints: Each record must include a valid PROG_CODE and FIELD_NAME. CHANGE_TIMESTAMP defaults to the current timestamp.
+References:
+
+PROG_CODE references LAB_PROGRESS(PROG_CODE) with ON DELETE CASCADE.
+
+CHANGED_BY references USER_(USER_ID) with no cascade action.
+
+DOMAINS (Validation Types)
+
+COURSE_CODE ensures valid course format.
+
+USER_ROLE_TYPE restricts roles to approved values.
+
+USERNAME ensures non-empty names.
+
+LOCATION allows flexible room/campus codes.
+
+PROGRESS_STATUS limits progress to valid states.
+
+TERM_NAME_TYPE and TERM_CODE_FORMAT enforce valid term naming and coding patterns.
