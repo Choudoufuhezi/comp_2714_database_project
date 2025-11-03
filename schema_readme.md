@@ -84,9 +84,9 @@
 - `TERM_NAME_TYPE` and `TERM_CODE_FORMAT` enforce valid term naming and coding patterns.
 - 
 
-## Adjustments
-- The Term and Set entities were added to align with the milestone requirements. Several attributes were introduced to accommodate the incoming CSV data, such as SEC_DAY_OF_WEEK and PROG_STATUS. Some fields were simply renamed while preserving their original meaning (e.g., EVENT_ID, CRS_CODE). In addition, relationship cardinalities, connectivities, and relationship strength issues identified in the previous milestone were reviewed and corrected to ensure proper referential integrity and logical consistency in the physical schema.
-- Surrogate keys: Used for entities with high insertion frequency or composite identifiers (e.g., SECTION_ID, EVENT_ID, PROG_CODE) to simplify foreign key relationships and improve readability.
-- Natural keys retained: CRS_CODE and TERM_CODE remain natural keys because they are stable and meaningful in the dataset (e.g., COMP2714 and 202530).
-- Cascading actions: Applied only when the child record cannot exist without its parent (e.g., deleting a Section removes its Labs and Lab Progress). No cascade is applied for lookup entities (Course, Term, Set) to preserve historical referential integrity.
-- Optional attributes: Some columns (e.g., hire date, submission timestamps) are nullable to reflect incomplete or evolving data in real-world scenarios.
+## Adjustments and Design Rationale
+- **Logical–Physical Adjustments:**  The **Term** and **Set** entities were added to align with the milestone requirements. Several attributes were introduced to accommodate the incoming CSV data, such as `SEC_DAY_OF_WEEK` and `PROG_STATUS`. Some fields were simply renamed while preserving their original meaning (e.g., `EVENT_ID`, `CRS_CODE`). In addition, relationship cardinalities, connectivities, and relationship strength issues identified in the previous milestone were reviewed and corrected to ensure proper referential integrity and logical consistency in the physical schema.
+- **Surrogate Keys:**  Used for entities with high insertion frequency or composite identifiers (e.g., `SECTION_ID`, `EVENT_ID`, `PROG_CODE`) to simplify foreign key relationships and improve readability.
+- **Natural Keys Retained:**  `CRS_CODE` and `TERM_CODE` remain natural keys because they are stable and meaningful in the dataset (e.g., `COMP2714` and `202530`).
+- **Cascading Actions:**  Applied only when the child record cannot exist without its parent (e.g., deleting a Section removes its Labs and Lab Progress). No cascade is applied for lookup entities (`COURSE`, `TERM`, `SET`) to preserve historical referential integrity.
+- **Optional Attributes:**  Some columns (e.g., hire date, submission timestamps) are nullable to reflect incomplete or evolving data in real-world scenarios.
