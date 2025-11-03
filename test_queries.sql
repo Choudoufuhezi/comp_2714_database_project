@@ -41,6 +41,12 @@ LEFT JOIN COURSE c ON s.crs_code = c.crs_code
 LEFT JOIN TERM t ON s.term_code = t.term_code
 WHERE c.crs_code IS NULL OR t.term_code IS NULL;
 
+-- Every SECTION must reference a valid SET_
+SELECT s.*
+FROM SECTION s
+LEFT JOIN SET_ st ON s.sec_set = st.set_code
+WHERE st.set_code IS NULL;
+
 
 -- Domain definitions and formats
 
@@ -97,3 +103,35 @@ SELECT l.proglog_id, l.prog_code
 FROM LAB_PROGRESS_LOG l
 LEFT JOIN LAB_PROGRESS p ON l.prog_code = p.prog_code
 WHERE p.prog_code IS NULL;
+
+-- TERMS with end dates earlier than start dates
+SELECT * FROM TERM WHERE term_end_date <= term_start_date;
+
+-- Labs in the same section should not overlap in time
+SELECT sl1.section_id, sl1.lab_id, sl2.lab_id
+FROM SECTION_LAB sl1
+JOIN SECTION_LAB sl2 ON sl1.section_id = sl2.section_id
+AND sl1.event_id <> sl2.event_id
+AND sl1.sec_lab_start < sl2.sec_lab_end
+AND sl2.sec_lab_start < sl1.sec_lab_end;
+
+-- Duplicate section entries that violate the unique constraint
+SELECT sec_code, crs_code, term_code, COUNT(*)
+FROM SECTION
+GROUP BY sec_code, crs_code, term_code
+HAVING COUNT(*) > 1;
+
+-- Test LAB_PROGRESS doesn't list students with no labs assigned
+SELECT lp.*
+FROM LAB_PROGRESS lp
+LEFT JOIN SECTION_LAB sl ON lp.event_id = sl.event_id
+LEFT JOIN SECTION s ON s.section_id = sl.section_id
+WHERE s.section_id IS NULL;
+
+-- These tests should fail:
+
+-- Should fail: invalid course code format
+-- INSERT INTO COURSE VALUES ('BAD12345', 'Bad Course', 3);
+
+-- Should fail: TERM_NAME violates TERM_NAME_TYPE
+-- INSERT INTO TERM VALUES ('999999', 'Autumn 2025', '2025-09-01', '2025-12-01');
