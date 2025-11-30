@@ -82,7 +82,6 @@
 - `LOCATION` allows flexible room/campus codes.
 - `PROGRESS_STATUS` limits progress to valid states.
 - `TERM_NAME_TYPE` and `TERM_CODE_FORMAT` enforce valid term naming and coding patterns.
-- 
 
 ## Adjustments and Design Rationale
 - **Logical–Physical Adjustments:**  The **Term** and **Set** entities were added to align with the milestone requirements. Several attributes were introduced to accommodate the incoming CSV data, such as `SEC_DAY_OF_WEEK` and `PROG_STATUS`. Some fields were simply renamed while preserving their original meaning (e.g., `EVENT_ID`, `CRS_CODE`). In addition, relationship cardinalities, connectivities, and relationship strength issues identified in the previous milestone were reviewed and corrected to ensure proper referential integrity and logical consistency in the physical schema.
