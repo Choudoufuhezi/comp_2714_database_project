@@ -1,24 +1,36 @@
--- Successful transaction: student submits + instructor assesses as one unit
+-- Task 5: transaction demo --
+
+-- sets the path to the schema
+set search_path = lab_tracker_group_10;
+
+
+-- Successful transaction, we attempt to update the submission, resubmission, and instructor assessment grade of an existent PROG_CODE, information should be successfully updated --
 BEGIN;
-
-UPDATE student_progress
-SET in_lab_submission_link = 'https://example.com/submissions/123',
-    polished_submission_link = 'https://example.com/submissions/123-polished'
-WHERE progress_id = 1001;  -- use an existing progress_id
-
-UPDATE student_progress
-SET instructor_assessment = 5
-WHERE progress_id = 1001;
-
-COMMIT;  -- Both updates are committed together, or both would be rolled back on error
+UPDATE LAB_PROGRESS
+   SET PROG_SUBMISSION_LINK = 'https://example.com/submissions/123',
+       PROG_REEVALUATION_LINK = 'https://example.com/submissions/123-polished'
+ WHERE PROG_CODE = 37;  -- use an existing progress_id
+UPDATE LAB_PROGRESS
+   SET PROG_INSTRUCTOR_ASSESSMENT = 5
+ WHERE PROG_CODE = 37;
+COMMIT;
 
 
--- Failing transaction: bad update that should not change any data
+-- Failing transaction, we attempt update the submission link of an non-existent existent PROG_CODE, nothing should be affected --
 BEGIN;
+UPDATE LAB_PROGRESS
+   SET PROG_SUBMISSION_LINK = 'https://bad.example.com'
+ WHERE PROG_CODE = 9999999;  -- non-existent, will affect 0 rows
+-- or attempt an insert with bad FK into change_log
+ROLLBACK;
 
-UPDATE student_progress
-SET in_lab_submission_link = 'https://bad.example.com/'
-WHERE progress_id = 999999;  -- non-existent id, affects 0 rows
 
--- No data is actually changed; we explicitly cancel the transaction
-ROLLBACK;  -- Discards any changes that might have occurred in this block
+-- Query to test the successful transaction, PROG_SUBMISSION_LINK,  PROG_REEVALUATION_LINK, and PROG_INSTRUCTOR_ASSESSMENT should be updated to above --
+SELECT PROG_CODE, PROG_INSTRUCTOR_ASSESSMENT, PROG_SUBMISSION_LINK, PROG_REEVALUATION_LINK
+FROM LAB_PROGRESS
+WHERE PROG_CODE = 37;
+
+-- Query to test the failing transaction, an empty table should be the output--
+SELECT PROG_CODE, PROG_INSTRUCTOR_ASSESSMENT, PROG_SUBMISSION_LINK, PROG_REEVALUATION_LINK
+FROM LAB_PROGRESS
+WHERE PROG_CODE = 9999999;
