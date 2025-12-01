@@ -15,6 +15,17 @@ GROUP BY s.USER_ID;
 
 -- 3) Late Submissions – students who submitted late at least once (prog_late = TRUE),
 -- showing their set, section, and count of late submissions
+
+-- Pick a real prog_code first
+SELECT prog_code, event_id, student_id
+FROM lab_progress
+         LIMIT 5;
+
+-- Suppose you pick prog_code = 1
+UPDATE lab_progress
+SET prog_late = TRUE
+WHERE prog_code = 1;
+
 SELECT
     lp.student_id,
     u.user_fname,
