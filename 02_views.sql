@@ -1,5 +1,8 @@
 SET search_path TO lab_tracker_group_10;
 
+--TA view with Columns:
+--section_id, lab_event_id, student_id, student_full_name, attendance, in_lab_submission_link, instructor_assessment
+
 CREATE OR REPLACE VIEW v_ta_progress_summary AS
 SELECT
     sl.SECTION_ID                             AS section_id,
@@ -16,15 +19,20 @@ JOIN USER_          AS u  ON u.USER_ID  = st.USER_ID;
 
 -- Examples:
 
+--select top 20 summaries ordered by section_id, lab_event_id, student_id
 SELECT *
 FROM v_ta_progress_summary
 ORDER BY section_id, lab_event_id, student_id
 LIMIT 20;
 
+--select all rows where section_id = 1 and oredered by lab_event_id, student_id
 SELECT *
 FROM v_ta_progress_summary
 WHERE section_id = 1
 ORDER BY lab_event_id, student_id;
+
+--Reporting view with Columns:
+--term_code, set_name, course_code, section_id, total_events, avg_instructor_assessment
 
 CREATE OR REPLACE VIEW v_section_overview AS
 SELECT
@@ -48,10 +56,12 @@ GROUP BY
 
 -- Examples
 
+--select all, ordered by term_code, course_code, section_id
 SELECT *
 FROM v_section_overview
 ORDER BY term_code, course_code, section_id;
 
+--select all rows where term_code = '202530' and oredered by course_code, section_id
 SELECT *
 FROM v_section_overview
 WHERE term_code = '202530'
