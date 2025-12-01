@@ -83,8 +83,8 @@ WHERE PROG_CODE = 39;
 
 CREATE OR REPLACE FUNCTION fn_create_lab_event_for_section (
     p_event_code VARCHAR(20),
-    p_section_id INT, 
-    p_lab_id INT, 
+    p_section_id INT,
+    p_lab_id INT,
     p_lab_start TIMESTAMP,
     p_lab_end TIMESTAMP,
     p_lab_due TIMESTAMP,
@@ -94,69 +94,68 @@ RETURNS INT
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    lab_event_id INT;
+lab_event_id INT;
     everyStudent RECORD;
-BEGIN 
-    INSERT INTO SECTION_LAB (
-        EVENT_CODE,
-        SECTION_ID,
-        LAB_ID,
-        SEC_LAB_START,
-        SEC_LAB_END,
-        SEC_LAB_DUE,
-        SEC_LAB_LOCATION
-    )
-    VALUES (
-        p_event_code,
-        p_section_id,
-        p_lab_id,
-        p_lab_start,
-        p_lab_end,
-        p_lab_due,
-        p_lab_location
-    )
-    RETURNING EVENT_ID INTO lab_event_id;
+BEGIN
+    -- 1) Create the new lab event
+INSERT INTO section_lab (
+    event_code,
+    section_id,
+    lab_id,
+    sec_lab_start,
+    sec_lab_end,
+    sec_lab_due,
+    sec_lab_location
+)
+VALUES (
+           p_event_code,
+           p_section_id,
+           p_lab_id,
+           p_lab_start,
+           p_lab_end,
+           p_lab_due,
+           p_lab_location
+       )
+    RETURNING event_id INTO lab_event_id;
 
-    FOR everyStudent IN 
-        SELECT DISTINCT sp.student_id
-        FROM lab_progress sp
-        JOIN section_lab sl ON sp.event_id = sl.event_id
-        WHERE sl.section_id = p_section_id;
+-- 2) Loop over all students in that section (based on existing progress)
+FOR everyStudent IN
+SELECT DISTINCT sp.student_id
+FROM lab_progress sp
+         JOIN section_lab sl ON sp.event_id = sl.event_id
+WHERE sl.section_id = p_section_id
     LOOP
+INSERT INTO lab_progress (
+    event_id,
+    student_id,
+    prog_attendance,
+    prog_status,
+    prog_prepared,
+    prog_submission_link,
+    prog_submission_timestamp,
+    prog_reevaluation_link,
+    prog_reevaluation_timestamp,
+    prog_instructor_assessment,
+    prog_self_assessment,
+    prog_late
+)
+VALUES (
+    lab_event_id,
+    everyStudent.student_id,   -- use the column selected in the FOR query
+    FALSE,                     -- prog_attendance
+    DEFAULT,                   -- prog_status (domain default)
+    FALSE,                     -- prog_prepared
+    NULL,                      -- submission_link
+    NULL,                      -- submission_timestamp
+    NULL,                      -- reevaluation_link
+    NULL,                      -- reevaluation_timestamp
+    NULL,                      -- instructor_assessment
+    NULL,                      -- self_assessment
+    FALSE                      -- prog_late
+    );
+END LOOP;
 
-        INSERT INTO LAB_PROGRESS (
-            EVENT_ID,
-            STUDENT_ID,
-            PROG_ATTENDANCE,
-            PROG_STATUS,
-            PROG_PREPARED,
-            PROG_SUBMISSION_LINK,
-            PROG_SUBMISSION_TIMESTAMP,
-            PROG_REEVALUATION_LINK,
-            PROG_REEVALUATION_TIMESTAMP,
-            PROG_INSTRUCTOR_ASSESSMENT,
-            PROG_SELF_ASSESSMENT,
-            PROG_LATE
-        )
-        VALUES (
-            lab_event_id,
-            everyStudent.user_id,
-            FALSE,          
-            DEFAULT,        
-            FALSE,          
-            NULL,          
-            NULL,          
-            NULL,           
-            NULL,           
-            NULL,           
-            NULL,           
-            FALSE           
-        );
-
-    END LOOP;
-
-    RETURN lab_event_id;
-
+RETURN lab_event_id;
 END;
 $$;
 
