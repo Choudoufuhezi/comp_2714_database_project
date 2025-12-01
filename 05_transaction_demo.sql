@@ -9,10 +9,10 @@ BEGIN;
 UPDATE LAB_PROGRESS
    SET PROG_SUBMISSION_LINK = 'https://example.com/submissions/123',
        PROG_REEVALUATION_LINK = 'https://example.com/submissions/123-polished'
- WHERE PROG_CODE = 37;  -- use an existing progress_id
+ WHERE PROG_CODE = 12;  -- use an existing progress_id
 UPDATE LAB_PROGRESS
    SET PROG_INSTRUCTOR_ASSESSMENT = 5
- WHERE PROG_CODE = 37;
+ WHERE PROG_CODE = 12;
 COMMIT;
 
 
@@ -28,7 +28,7 @@ ROLLBACK;
 -- Query to test the successful transaction, PROG_SUBMISSION_LINK,  PROG_REEVALUATION_LINK, and PROG_INSTRUCTOR_ASSESSMENT should be updated to above --
 SELECT PROG_CODE, PROG_INSTRUCTOR_ASSESSMENT, PROG_SUBMISSION_LINK, PROG_REEVALUATION_LINK
 FROM LAB_PROGRESS
-WHERE PROG_CODE = 37;
+WHERE PROG_CODE = 12;
 
 -- Query to test the failing transaction, an empty table should be the output--
 SELECT PROG_CODE, PROG_INSTRUCTOR_ASSESSMENT, PROG_SUBMISSION_LINK, PROG_REEVALUATION_LINK
