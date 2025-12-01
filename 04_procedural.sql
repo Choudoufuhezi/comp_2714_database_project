@@ -1,6 +1,12 @@
+-- Task 4: procedural --
+
+-- sets the path to the schema
 set search_path = lab_tracker_group_10;
+
+-- drop if change_log table exist
 DROP TABLE IF EXISTS change_log;
 
+-- create a new table called change log
 CREATE TABLE IF NOT EXISTS change_log (
     change_id SERIAL PRIMARY KEY, 
     prog_code INT NOT NULL, changed_by TEXT, 
@@ -11,6 +17,8 @@ CREATE TABLE IF NOT EXISTS change_log (
     CONSTRAINT fk_change_progress FOREIGN KEY (prog_code) REFERENCES LAB_PROGRESS(PROG_CODE) 
     ); 
 
+
+-- create a trigger function called fn_log_progress_change
 CREATE OR REPLACE FUNCTION fn_log_progress_change()
 RETURNS TRIGGER 
 LANGUAGE 'plpgsql' AS 
@@ -57,6 +65,7 @@ BEGIN
 END;
 $$;
 
+-- sets the trigger on LAB_PROGRESS
 CREATE TRIGGER trg_log_progress_change
 AFTER INSERT OR UPDATE
 on LAB_PROGRESS
@@ -80,7 +89,7 @@ SET PROG_INSTRUCTOR_ASSESSMENT = 9.0
 WHERE PROG_CODE = 39;
 
 
-
+-- crate a store function called fn_create_lab_event_for_section
 CREATE OR REPLACE FUNCTION fn_create_lab_event_for_section (
     p_event_code VARCHAR(20),
     p_section_id INT,
@@ -159,6 +168,7 @@ RETURN lab_event_id;
 END;
 $$;
 
+-- use the store function fn_create_lab_event_for_section
 SELECT fn_create_lab_event_for_section(
     'L07-L02',          
     1,                 
@@ -169,6 +179,7 @@ SELECT fn_create_lab_event_for_section(
     'BBY-SW01-3460'
 );
 
+-- run query to see if the store query is functional or not
 SELECT *
 FROM lab_progress
 WHERE event_id = (SELECT MAX(event_id) FROM section_lab);
